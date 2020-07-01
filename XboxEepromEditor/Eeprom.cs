@@ -724,8 +724,6 @@ namespace XboxEepromEditor
             Region = Region.NorthAmerica | Region.Japan | Region.EuropeAustralia;
             VideoStandard = VideoStandard.NtscM;
             Language = Language.English;
-            VideoSettings = VideoSettings.Resolution480p | VideoSettings.Resolution720p | VideoSettings.Refresh60Hz | VideoSettings.Widescreen;
-            AudioSettings = AudioSettings.Surround;
 
             // randomly generate new keys and hardware info
             Serial = GeneratRandomSerial();
