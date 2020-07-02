@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using XboxEepromEditor.Controls;
@@ -420,7 +421,27 @@ namespace XboxEepromEditor.Forms
 
         private void mnuAbout_Click(object sender, EventArgs e)
         {
-            Process.Start("https://github.com/Ernegien/XboxEepromEditor");
+            var url = "https://github.com/Ernegien/XboxEepromEditor";
+
+            try
+            {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    Process.Start("xdg-open", url);
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    Process.Start("open", url);
+                }
+                else
+                {
+                    Process.Start(url);
+                }
+            }
+            catch
+            {
+                MessageBox.Show(url, "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }
