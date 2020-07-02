@@ -26,6 +26,7 @@ namespace XboxEepromEditor.Forms
         public MainForm()
         {
             InitializeComponent();
+            AppDomain.CurrentDomain.UnhandledException += GlobalExceptionHandler;
 
             Text += " (" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + ") BETA";
         }
@@ -422,7 +423,7 @@ namespace XboxEepromEditor.Forms
         private void mnuAbout_Click(object sender, EventArgs e)
         {
             var url = "https://github.com/Ernegien/XboxEepromEditor";
-
+            throw new Exception();
             try
             {
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
@@ -442,6 +443,26 @@ namespace XboxEepromEditor.Forms
             {
                 MessageBox.Show(url, "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        /// <summary>
+        /// Handles uncaught exceptions.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private static void GlobalExceptionHandler(object sender, UnhandledExceptionEventArgs e)
+        {
+            // TODO: log full messages and truncate messagebox contents
+            if (e.ExceptionObject is Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                MessageBox.Show(e.ExceptionObject.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            Environment.Exit(1);
         }
     }
 }
