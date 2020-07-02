@@ -423,7 +423,7 @@ namespace XboxEepromEditor.Forms
         private void mnuAbout_Click(object sender, EventArgs e)
         {
             var url = "https://github.com/Ernegien/XboxEepromEditor";
-            throw new Exception();
+
             try
             {
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
