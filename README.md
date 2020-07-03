@@ -1,4 +1,4 @@
-﻿# Original Xbox EEPROM Editor (Beta)
+# Original Xbox EEPROM Editor (Beta)
 
 **NOTICE! - This application is still in the beta phase, please ensure you have an original backup of the EEPROM contents and an easy way to restore in case of issues.**
 **Binaries won't be provided until further testing has been completed and the tool is deemed save to use.**
@@ -10,6 +10,21 @@ This application allows for generating and/or editing the contents of an Origina
 ### Requirements
 
 .NET Framework 4.7.2 (Mono compatible)
+
+### Build Instructions
+
+##### Windows
+
+* Build with [Visual Studio Community](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community&rel=16#)
+
+##### Linux
+
+* Install [Mono](https://www.mono-project.com/download/stable/#download-lin)
+* Clone: `git clone https://github.com/Ernegien/XboxEepromEditor.git`
+* Enter source directory: `cd XboxEepromEditor/XboxEepromEditor`
+* Compile: `xbuild XboxEepromEditor.csproj`
+* Mark executable: `chmod +x bin/Debug/XboxEepromEditor.exe`
+* Run: `./bin/Debug/XboxEepromEditor.exe`
 
 ### Attribution
 
