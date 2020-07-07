@@ -197,7 +197,7 @@ namespace XboxEepromEditor.Forms
                 _eeprom.ParentalControlMovieRating = movieRating;
             }
 
-            uint passcode = _eeprom.ParentalControlPasscode;
+            uint passcode = 0;
             var pass1 = (PasscodeButton)cmbPass1.SelectedValue;
             if (pass1 != PasscodeButton.Unknown)
             {
