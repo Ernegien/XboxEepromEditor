@@ -721,7 +721,7 @@ namespace XboxEepromEditor
 
             // defaults
             Version = version;
-            Region = Region.NorthAmerica | Region.Japan | Region.EuropeAustralia;
+            Region = Region.NorthAmerica;
             VideoStandard = VideoStandard.NtscM;
             Language = Language.English;
 

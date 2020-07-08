@@ -2,6 +2,9 @@
 
 namespace XboxEepromEditor.Types
 {
+    /// <summary>
+    /// NOTE: Values larger than 4 are not supported by XOnlineDash.
+    /// </summary>
     [Flags]
     public enum Region
     {
