@@ -120,6 +120,10 @@ namespace XboxEepromEditor.Forms
             this.label28 = new System.Windows.Forms.Label();
             this.lvUnknownB8 = new System.Windows.Forms.ListView();
             this.label27 = new System.Windows.Forms.Label();
+            this.mnuArduionoProm = new System.Windows.Forms.ToolStripMenuItem();
+            this.readToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.writeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -142,6 +146,7 @@ namespace XboxEepromEditor.Forms
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuFile,
+            this.mnuArduionoProm,
             this.mnuAbout});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -164,35 +169,35 @@ namespace XboxEepromEditor.Forms
             // mnuOpen
             // 
             this.mnuOpen.Name = "mnuOpen";
-            this.mnuOpen.Size = new System.Drawing.Size(180, 22);
+            this.mnuOpen.Size = new System.Drawing.Size(130, 22);
             this.mnuOpen.Text = "Open";
             this.mnuOpen.Click += new System.EventHandler(this.mnuOpen_Click);
             // 
             // mnuSaveAs
             // 
             this.mnuSaveAs.Name = "mnuSaveAs";
-            this.mnuSaveAs.Size = new System.Drawing.Size(180, 22);
+            this.mnuSaveAs.Size = new System.Drawing.Size(130, 22);
             this.mnuSaveAs.Text = "Save As";
             this.mnuSaveAs.Click += new System.EventHandler(this.mnuSaveAs_Click);
             // 
             // mnuExportTxt
             // 
             this.mnuExportTxt.Name = "mnuExportTxt";
-            this.mnuExportTxt.Size = new System.Drawing.Size(180, 22);
+            this.mnuExportTxt.Size = new System.Drawing.Size(130, 22);
             this.mnuExportTxt.Text = "Export TXT";
             this.mnuExportTxt.Click += new System.EventHandler(this.mnuExportTxt_Click);
             // 
             // mnuReset
             // 
             this.mnuReset.Name = "mnuReset";
-            this.mnuReset.Size = new System.Drawing.Size(180, 22);
+            this.mnuReset.Size = new System.Drawing.Size(130, 22);
             this.mnuReset.Text = "Reset";
             this.mnuReset.Click += new System.EventHandler(this.mnuReset_Click);
             // 
             // mnuExit
             // 
             this.mnuExit.Name = "mnuExit";
-            this.mnuExit.Size = new System.Drawing.Size(180, 22);
+            this.mnuExit.Size = new System.Drawing.Size(130, 22);
             this.mnuExit.Text = "Exit";
             this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
             // 
@@ -1161,6 +1166,34 @@ namespace XboxEepromEditor.Forms
             this.label27.TabIndex = 45;
             this.label27.Text = "Unknown 0xB8:";
             // 
+            // mnuArduionoProm
+            // 
+            this.mnuArduionoProm.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.readToolStripMenuItem,
+            this.writeToolStripMenuItem,
+            this.configureToolStripMenuItem});
+            this.mnuArduionoProm.Name = "mnuArduionoProm";
+            this.mnuArduionoProm.Size = new System.Drawing.Size(94, 20);
+            this.mnuArduionoProm.Text = "Arduino Prom";
+            // 
+            // readToolStripMenuItem
+            // 
+            this.readToolStripMenuItem.Name = "readToolStripMenuItem";
+            this.readToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.readToolStripMenuItem.Text = "Read";
+            // 
+            // writeToolStripMenuItem
+            // 
+            this.writeToolStripMenuItem.Name = "writeToolStripMenuItem";
+            this.writeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.writeToolStripMenuItem.Text = "Write";
+            // 
+            // configureToolStripMenuItem
+            // 
+            this.configureToolStripMenuItem.Name = "configureToolStripMenuItem";
+            this.configureToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.configureToolStripMenuItem.Text = "Configure";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1474,6 +1507,11 @@ namespace XboxEepromEditor.Forms
         }
 
         #endregion
+
+        private ToolStripMenuItem mnuArduionoProm;
+        private ToolStripMenuItem readToolStripMenuItem;
+        private ToolStripMenuItem writeToolStripMenuItem;
+        private ToolStripMenuItem configureToolStripMenuItem;
     }
 }
 
