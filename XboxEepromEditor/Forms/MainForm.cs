@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Ports;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -22,6 +23,7 @@ namespace XboxEepromEditor.Forms
     public partial class MainForm : Form
     {
         Eeprom _eeprom = new Eeprom();
+        SerialPort _sp = new SerialPort(); //Used for ArduinoProm support
 
         public MainForm()
         {
@@ -50,6 +52,8 @@ namespace XboxEepromEditor.Forms
             PopulateUnknownCheckboxes();
 
             UpdateFormFromEeprom();
+
+            PrepareArduinoPromMenu();
         }
 
         private void UpdateFormFromEeprom()
@@ -244,6 +248,341 @@ namespace XboxEepromEditor.Forms
             _eeprom.UnknownFlagsF8 = (UnknownFlags)GetListViewFlagValue(lvUnknownF8);
             _eeprom.UnknownFlagsFC = (UnknownFlags)GetListViewFlagValue(lvUnknownFC);
         }
+
+        #region ArduinoProm
+        //ArduionProm implementation written by KingLuxor (Team-Donkey) 7-24-2020
+        private void PrepareArduinoPromMenu()
+        {
+            //Populate ArduinoProm configure menu with available COM ports
+            foreach (string s in SerialPort.GetPortNames())
+            {
+                string portName = s;
+
+                if (s.Substring(0, 3) != "COM")
+                    continue;
+
+                try
+                {
+                    using (SerialPort checkPort = new SerialPort(s))
+                    {
+                        if (checkPort.IsOpen)
+                            portName = portName + " (IN USE)";
+                            
+                        //checkPort.Open();
+                        //checkPort.Close();
+                    }
+                }
+
+                catch(UnauthorizedAccessException)
+                {
+                    portName = portName + " (IN USE/ERROR)";
+                }
+
+                finally
+                {
+                    ToolStripMenuItem newItem = new ToolStripMenuItem();
+                    newItem.Text = s;
+                    newItem.Click += mnuArduinoPromConfigureItem_Click;
+
+                    mnuArduinoPromConfigure.DropDownItems.Add(newItem);
+                }
+            }
+        }
+
+        private void mnuArduinoPromConfigureItem_Click(object sender, EventArgs e)
+        {
+            mnuArduinoPromConfigureItem_Uncheck_Others((ToolStripMenuItem)sender);
+        }
+
+        private void mnuArduinoPromConfigureItem_Uncheck_Others(ToolStripMenuItem selectedMenuItem)
+        {
+            //Check the clicked menu item, uncheck all others
+            selectedMenuItem.Checked = true;
+
+            foreach (var ltoolStripMenuItem in (from object item in selectedMenuItem.Owner.Items let ltoolStripMenuItem = item as ToolStripMenuItem where ltoolStripMenuItem != null where !item.Equals(selectedMenuItem) select ltoolStripMenuItem)) (ltoolStripMenuItem).Checked = false;
+        }
+
+        private void mnuArduinoPromConfigureTest_Click(object sender, EventArgs e)
+        {
+            //Send 0x04 to ArduinoProm, should get reply of -1
+
+            string selectedComPort = GetArduinoPromPort();
+
+            if (!ArduinoProm_ValidatePort(selectedComPort))
+            {
+                MessageBox.Show(this, "Please select a COM Port for ArduinoProm and try again.", "Awww Snap!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                //MessageBox.Show("COM Port Selected: " + selectedComPort);
+                if (TestArduinoPromConfig())
+                {
+                    MessageBox.Show(this, "ArduinoProm Detected", "Party on Wayne", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show(this, "ArduinoProm Not Found", "Bogus", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+        }
+
+        private void mnuArduinoPromRead_Click(object sender, EventArgs e)
+        {
+            byte[] data = ArduinoProm_Read();
+
+            if (data.Length < 256)
+            {
+                //Show details messages in call to ArduinoProm_Read()
+                //MessageBox.Show(this, "Error reading EEPROM", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            MessageBox.Show(this, "Read OK", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "Xbox EEPROM (*.bin)|*.bin";
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    File.Delete(sfd.FileName);
+                    File.WriteAllBytes(sfd.FileName, data);
+
+                    DialogResult drOpen = MessageBox.Show(this, "File saved. Load file now?", "Load File", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (drOpen == DialogResult.Yes)
+                    {
+                        //Load the file we just saved
+                        _eeprom = new Eeprom(sfd.FileName);
+                        UpdateFormFromEeprom();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(this, "Operation canceled", "Abort!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+
+        }
+
+        private void mnuArduinoPromWrite_Click(object sender, EventArgs e)
+        {
+            if (ArduinoProm_Write())
+            {
+                MessageBox.Show("EEPROM Written", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                //Almost anything that goes wrong with display a message, but just in case, and to let the user know that (for example)
+                //an unable to open PORT error would mean we also couldn't write the EEPROM, lets remind them
+                MessageBox.Show("Unable to write EEPROM", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void mnuArduinoPromRepository_Click(object sender, EventArgs e)
+        {
+            //Not gonna change what works so I copied yours
+            var url = "https://github.com/Ryzee119/ArduinoProm";
+
+            try
+            {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    Process.Start("xdg-open", url);
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    Process.Start("open", url);
+                }
+                else
+                {
+                    Process.Start(url);
+                }
+            }
+            catch
+            {
+                MessageBox.Show(url, "ArduinoProm Repository", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private string GetArduinoPromPort()
+        {
+            string result = string.Empty;
+
+            foreach (var ltoolStripMenuItem in (from object item in mnuArduinoPromConfigure.DropDownItems let ltoolStripMenuItem = item as ToolStripMenuItem where ltoolStripMenuItem.Checked select ltoolStripMenuItem)) result = ltoolStripMenuItem.Text;
+
+            if (result != string.Empty)
+            {
+                result = result.Replace("(IN USE)", string.Empty).Trim();
+            }
+
+            return result;
+        }
+
+        private bool ArduinoProm_ValidatePort(string port)
+        {
+            //Validate that the user has slected a COM port, if not complain.
+            if (port == string.Empty)
+            {
+                MessageBox.Show(this, "Verify COM Port for ArduinoProm and try again.", "Awww Snap!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool ArduinoProm_Write()
+        {
+            string port = GetArduinoPromPort();
+            byte[] writeData = _eeprom.Data;
+            byte[] readData;
+
+            if (writeData.Length != 256)
+            {
+                MessageBox.Show(this, "Please open a valid EEPROM file and try again.", "Invalid Data Size", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (!ArduinoProm_ValidatePort(port))
+                return false;
+
+            using (_sp = new SerialPort(port, 9600))
+            {
+                _sp.RtsEnable = _sp.DtrEnable = true;
+                _sp.WriteTimeout = 500; //Write timeout 500ms
+                _sp.Open();
+                _sp.DiscardInBuffer();
+                _sp.DiscardOutBuffer();
+
+                try
+                {
+                    _sp.Write(new byte[] { 0x01 }, 0, 1);
+                    _sp.Write(writeData, 0, writeData.Length); //This had better be 256! We already verify above, for good practice we use .Length instead of hard coding 256
+                    System.Threading.Thread.Sleep(100);
+                    readData = new byte[_sp.BytesToRead];
+                    _sp.Read(readData, 0, _sp.BytesToRead);
+                    _sp.Close();
+
+                    if (readData.Length != 1 || readData[0] != 0x00)
+                    {
+                        MessageBox.Show(this, "ArduinoProm replied with invalid or unexpected response.", "Unexpected Reply", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                }
+
+                catch (TimeoutException)
+                {
+                    MessageBox.Show(this, "ArduinoProm reply timed out.", "Timeout", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _sp.Close();
+                    return false;
+                }
+
+                catch (Exception ex)
+                {
+                    ///TODO: Add logging
+                    MessageBox.Show(this, "Exception: " + ex.Message, "Something went wrong...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _sp.Close(); //Try to close the port
+                    return false; //Leave
+                }
+
+                _sp.Close();
+            }
+
+            return true;
+        }
+
+        private byte[] ArduinoProm_Read()
+        {
+            string port = GetArduinoPromPort();
+            byte[] readData = new byte[256];
+
+            if (!ArduinoProm_ValidatePort(port))
+                return new byte[] { 0 };
+
+            ///TODO: change this to USING
+            using (_sp = new SerialPort(port, 9600))
+            {
+                _sp.RtsEnable = _sp.DtrEnable = true;
+                _sp.ReadTimeout = 500; //Read timeout 500ms
+                _sp.Open();
+                _sp.DiscardInBuffer();
+                _sp.DiscardOutBuffer();
+
+                try
+                {
+                    _sp.Write(new byte[] { 0x00 }, 0, 1);
+
+                    System.Threading.Thread.Sleep(100);
+
+                    if (_sp.BytesToRead < 256)
+                    {
+                        //We should have data back by now...
+                        _sp.Close();
+                        MessageBox.Show(this, "ArduinoProm reply timed out. BytesToRead<256", "Timeout", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return new byte[] { 0 };
+                    }
+
+                    _sp.Read(readData, 0, 256);
+                }
+
+                catch (TimeoutException)
+                {
+                    MessageBox.Show(this, "ArduinoProm reply timed out.", "Timeout", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _sp.Close();
+                    return new byte[] { 0 };
+                }
+
+                catch (Exception ex)
+                {
+                    ///TODO: Add logging
+                    MessageBox.Show(this, "Exception: " + ex.Message, "Something went wrong...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _sp.Close(); //Try to close the port
+                    return new byte[] { 0 }; //Leave
+                }
+
+                _sp.Close();
+            }
+
+            return readData;
+        }
+
+        private bool TestArduinoPromConfig()
+        {
+            string port = GetArduinoPromPort();
+            byte[] readData = new byte[1] { 0 };
+
+            if (!ArduinoProm_ValidatePort(port))
+                return false;
+
+            using (_sp = new SerialPort(port, 9600))
+            {
+                _sp.RtsEnable = _sp.DtrEnable = true;
+                _sp.ReadTimeout = 500;
+
+                try
+                {
+                    _sp.Open();
+                    _sp.Write(new byte[] { 0x04 }, 0, 1);
+                    _sp.Read(readData, 0, 1);
+                }
+                catch (TimeoutException)
+                {
+                    //Ouch, we timed out without a reply
+                    _sp.Close();
+                    return false;
+                }
+
+                _sp.Close();
+
+                //Party on Garth... We found it
+                if (readData[0] == 255)
+                    return true;
+            }
+
+            //We got a reply, but it wasn't what we expected
+            return false;
+        }
+        #endregion ArduinoProm
 
         private void cmbVersion_SelectedIndexChanged(object sender, EventArgs e)
         {

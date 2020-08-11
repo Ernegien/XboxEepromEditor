@@ -41,6 +41,13 @@ namespace XboxEepromEditor.Forms
             this.mnuExportTxt = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuReset = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuArduinoProm = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuArduinoPromRead = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuArduinoPromWrite = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuArduinoPromConfigure = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuArduinoPromDetect = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuArduinoPromDetectEEPROM = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuArduinoPromRepository = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tabGeneral = new System.Windows.Forms.TabPage();
@@ -61,21 +68,16 @@ namespace XboxEepromEditor.Forms
             this.lvRegions = new System.Windows.Forms.ListView();
             this.cmbVersion = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.txtConfounder = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtHddKey = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.tabSections = new System.Windows.Forms.TabControl();
             this.tabFactory = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cmbVideoStandard = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.txtOnlineKey = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.txtMacAddress = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.txtSerial = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.tabParental = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -90,27 +92,17 @@ namespace XboxEepromEditor.Forms
             this.label22 = new System.Windows.Forms.Label();
             this.tabLive = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.txtLiveSubnet = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.txtLiveGateway = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.label14 = new System.Windows.Forms.Label();
-            this.txtLiveDns = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.txtLiveAddress = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.tabUnknown1 = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.txtUnknownF4 = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.label25 = new System.Windows.Forms.Label();
-            this.txtUnknownC0 = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.label33 = new System.Windows.Forms.Label();
-            this.txtPadding80 = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.label24 = new System.Windows.Forms.Label();
-            this.txtPadding70 = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.label23 = new System.Windows.Forms.Label();
-            this.txtPadding56 = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.label21 = new System.Windows.Forms.Label();
-            this.txtPadding46 = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.tabUnknown2 = new System.Windows.Forms.TabPage();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
@@ -120,6 +112,23 @@ namespace XboxEepromEditor.Forms
             this.label28 = new System.Windows.Forms.Label();
             this.lvUnknownB8 = new System.Windows.Forms.ListView();
             this.label27 = new System.Windows.Forms.Label();
+            this.mnuArduinoPromConfigureTest = new System.Windows.Forms.ToolStripMenuItem();
+            this.txtConfounder = new XboxEepromEditor.Controls.ValidatedTextBox();
+            this.txtHddKey = new XboxEepromEditor.Controls.ValidatedTextBox();
+            this.txtOnlineKey = new XboxEepromEditor.Controls.ValidatedTextBox();
+            this.txtMacAddress = new XboxEepromEditor.Controls.ValidatedTextBox();
+            this.txtSerial = new XboxEepromEditor.Controls.ValidatedTextBox();
+            this.txtLiveSubnet = new XboxEepromEditor.Controls.ValidatedTextBox();
+            this.txtLiveGateway = new XboxEepromEditor.Controls.ValidatedTextBox();
+            this.txtLiveDns = new XboxEepromEditor.Controls.ValidatedTextBox();
+            this.txtLiveAddress = new XboxEepromEditor.Controls.ValidatedTextBox();
+            this.txtUnknownF4 = new XboxEepromEditor.Controls.ValidatedTextBox();
+            this.txtUnknownC0 = new XboxEepromEditor.Controls.ValidatedTextBox();
+            this.txtPadding80 = new XboxEepromEditor.Controls.ValidatedTextBox();
+            this.txtPadding70 = new XboxEepromEditor.Controls.ValidatedTextBox();
+            this.txtPadding56 = new XboxEepromEditor.Controls.ValidatedTextBox();
+            this.txtPadding46 = new XboxEepromEditor.Controls.ValidatedTextBox();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -142,6 +151,7 @@ namespace XboxEepromEditor.Forms
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuFile,
+            this.mnuArduinoProm,
             this.mnuAbout});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -195,6 +205,61 @@ namespace XboxEepromEditor.Forms
             this.mnuExit.Size = new System.Drawing.Size(180, 22);
             this.mnuExit.Text = "Exit";
             this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
+            // 
+            // mnuArduinoProm
+            // 
+            this.mnuArduinoProm.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuArduinoPromRead,
+            this.mnuArduinoPromWrite,
+            this.mnuArduinoPromConfigure,
+            this.mnuArduinoPromDetect,
+            this.mnuArduinoPromDetectEEPROM,
+            this.mnuArduinoPromRepository});
+            this.mnuArduinoProm.Name = "mnuArduinoProm";
+            this.mnuArduinoProm.Size = new System.Drawing.Size(91, 20);
+            this.mnuArduinoProm.Text = "ArduinoProm";
+            // 
+            // mnuArduinoPromRead
+            // 
+            this.mnuArduinoPromRead.Name = "mnuArduinoPromRead";
+            this.mnuArduinoPromRead.Size = new System.Drawing.Size(205, 22);
+            this.mnuArduinoPromRead.Text = "Read";
+            this.mnuArduinoPromRead.Click += new System.EventHandler(this.mnuArduinoPromRead_Click);
+            // 
+            // mnuArduinoPromWrite
+            // 
+            this.mnuArduinoPromWrite.Name = "mnuArduinoPromWrite";
+            this.mnuArduinoPromWrite.Size = new System.Drawing.Size(205, 22);
+            this.mnuArduinoPromWrite.Text = "Write";
+            this.mnuArduinoPromWrite.Click += new System.EventHandler(this.mnuArduinoPromWrite_Click);
+            // 
+            // mnuArduinoPromConfigure
+            // 
+            this.mnuArduinoPromConfigure.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuArduinoPromConfigureTest,
+            this.toolStripMenuItem1});
+            this.mnuArduinoPromConfigure.Name = "mnuArduinoPromConfigure";
+            this.mnuArduinoPromConfigure.Size = new System.Drawing.Size(205, 22);
+            this.mnuArduinoPromConfigure.Text = "Configure";
+            // 
+            // mnuArduinoPromDetect
+            // 
+            this.mnuArduinoPromDetect.Name = "mnuArduinoPromDetect";
+            this.mnuArduinoPromDetect.Size = new System.Drawing.Size(205, 22);
+            this.mnuArduinoPromDetect.Text = "Detect ArduinoProm";
+            // 
+            // mnuArduinoPromDetectEEPROM
+            // 
+            this.mnuArduinoPromDetectEEPROM.Name = "mnuArduinoPromDetectEEPROM";
+            this.mnuArduinoPromDetectEEPROM.Size = new System.Drawing.Size(205, 22);
+            this.mnuArduinoPromDetectEEPROM.Text = "Detect EEPROM";
+            // 
+            // mnuArduinoPromRepository
+            // 
+            this.mnuArduinoPromRepository.Name = "mnuArduinoPromRepository";
+            this.mnuArduinoPromRepository.Size = new System.Drawing.Size(205, 22);
+            this.mnuArduinoPromRepository.Text = "ArduinoProm Repository";
+            this.mnuArduinoPromRepository.Click += new System.EventHandler(this.mnuArduinoPromRepository_Click);
             // 
             // mnuAbout
             // 
@@ -422,22 +487,6 @@ namespace XboxEepromEditor.Forms
             this.label8.TabIndex = 23;
             this.label8.Text = "Hardware Type:";
             // 
-            // txtConfounder
-            // 
-            this.txtConfounder.BackColor = System.Drawing.SystemColors.Window;
-            this.txtConfounder.CharacterRegex = "[0-9A-F]";
-            this.txtConfounder.ExactLengthRequired = 16;
-            this.txtConfounder.ForceUpperCase = true;
-            this.txtConfounder.InvalidColor = System.Drawing.Color.Yellow;
-            this.txtConfounder.Location = new System.Drawing.Point(105, 50);
-            this.txtConfounder.MaxLength = 16;
-            this.txtConfounder.Name = "txtConfounder";
-            this.txtConfounder.Size = new System.Drawing.Size(134, 20);
-            this.txtConfounder.TabIndex = 3;
-            this.txtConfounder.Text = "DDDDDDDDDDDDDDDD";
-            this.txtConfounder.TextRegex = "[0-9A-F]+";
-            this.txtConfounder.ValidColor = System.Drawing.SystemColors.Window;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -464,22 +513,6 @@ namespace XboxEepromEditor.Forms
             this.label3.Size = new System.Drawing.Size(55, 13);
             this.label3.TabIndex = 4;
             this.label3.Text = "HDD Key:";
-            // 
-            // txtHddKey
-            // 
-            this.txtHddKey.BackColor = System.Drawing.SystemColors.Window;
-            this.txtHddKey.CharacterRegex = "[0-9A-F]";
-            this.txtHddKey.ExactLengthRequired = 32;
-            this.txtHddKey.ForceUpperCase = true;
-            this.txtHddKey.InvalidColor = System.Drawing.Color.Yellow;
-            this.txtHddKey.Location = new System.Drawing.Point(105, 76);
-            this.txtHddKey.MaxLength = 32;
-            this.txtHddKey.Name = "txtHddKey";
-            this.txtHddKey.Size = new System.Drawing.Size(262, 20);
-            this.txtHddKey.TabIndex = 5;
-            this.txtHddKey.Text = "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD";
-            this.txtHddKey.TextRegex = "[0-9A-F]+";
-            this.txtHddKey.ValidColor = System.Drawing.SystemColors.Window;
             // 
             // tabSections
             // 
@@ -551,22 +584,6 @@ namespace XboxEepromEditor.Forms
             this.label7.TabIndex = 21;
             this.label7.Text = "Video Standard:";
             // 
-            // txtOnlineKey
-            // 
-            this.txtOnlineKey.BackColor = System.Drawing.SystemColors.Window;
-            this.txtOnlineKey.CharacterRegex = "[0-9A-F]";
-            this.txtOnlineKey.ExactLengthRequired = 32;
-            this.txtOnlineKey.ForceUpperCase = true;
-            this.txtOnlineKey.InvalidColor = System.Drawing.Color.Yellow;
-            this.txtOnlineKey.Location = new System.Drawing.Point(105, 74);
-            this.txtOnlineKey.MaxLength = 32;
-            this.txtOnlineKey.Name = "txtOnlineKey";
-            this.txtOnlineKey.Size = new System.Drawing.Size(262, 20);
-            this.txtOnlineKey.TabIndex = 20;
-            this.txtOnlineKey.Text = "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD";
-            this.txtOnlineKey.TextRegex = "[0-9A-F]+";
-            this.txtOnlineKey.ValidColor = System.Drawing.SystemColors.Window;
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -576,22 +593,6 @@ namespace XboxEepromEditor.Forms
             this.label6.TabIndex = 19;
             this.label6.Text = "Online Key:";
             // 
-            // txtMacAddress
-            // 
-            this.txtMacAddress.BackColor = System.Drawing.SystemColors.Window;
-            this.txtMacAddress.CharacterRegex = "[0-9A-F]";
-            this.txtMacAddress.ExactLengthRequired = 12;
-            this.txtMacAddress.ForceUpperCase = true;
-            this.txtMacAddress.InvalidColor = System.Drawing.Color.Yellow;
-            this.txtMacAddress.Location = new System.Drawing.Point(105, 48);
-            this.txtMacAddress.MaxLength = 12;
-            this.txtMacAddress.Name = "txtMacAddress";
-            this.txtMacAddress.Size = new System.Drawing.Size(103, 20);
-            this.txtMacAddress.TabIndex = 18;
-            this.txtMacAddress.Text = "DDDDDDDDDDDD";
-            this.txtMacAddress.TextRegex = "[0-9A-F]+";
-            this.txtMacAddress.ValidColor = System.Drawing.SystemColors.Window;
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -600,22 +601,6 @@ namespace XboxEepromEditor.Forms
             this.label5.Size = new System.Drawing.Size(74, 13);
             this.label5.TabIndex = 17;
             this.label5.Text = "MAC Address:";
-            // 
-            // txtSerial
-            // 
-            this.txtSerial.BackColor = System.Drawing.SystemColors.Window;
-            this.txtSerial.CharacterRegex = "[0-9]";
-            this.txtSerial.ExactLengthRequired = 12;
-            this.txtSerial.ForceUpperCase = false;
-            this.txtSerial.InvalidColor = System.Drawing.Color.Yellow;
-            this.txtSerial.Location = new System.Drawing.Point(105, 22);
-            this.txtSerial.MaxLength = 12;
-            this.txtSerial.Name = "txtSerial";
-            this.txtSerial.Size = new System.Drawing.Size(103, 20);
-            this.txtSerial.TabIndex = 16;
-            this.txtSerial.Text = "000000000000";
-            this.txtSerial.TextRegex = "[0-9]+";
-            this.txtSerial.ValidColor = System.Drawing.SystemColors.Window;
             // 
             // label4
             // 
@@ -778,23 +763,6 @@ namespace XboxEepromEditor.Forms
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Xbox Live Settings (Deprecated)";
             // 
-            // txtLiveSubnet
-            // 
-            this.txtLiveSubnet.BackColor = System.Drawing.SystemColors.Window;
-            this.txtLiveSubnet.CharacterRegex = "[0-9\\.]";
-            this.txtLiveSubnet.ExactLengthRequired = 0;
-            this.txtLiveSubnet.ForceUpperCase = false;
-            this.txtLiveSubnet.InvalidColor = System.Drawing.Color.Yellow;
-            this.txtLiveSubnet.Location = new System.Drawing.Point(105, 100);
-            this.txtLiveSubnet.MaxLength = 15;
-            this.txtLiveSubnet.Name = "txtLiveSubnet";
-            this.txtLiveSubnet.Size = new System.Drawing.Size(88, 20);
-            this.txtLiveSubnet.TabIndex = 22;
-            this.txtLiveSubnet.Text = "255.255.255.255";
-            this.txtLiveSubnet.TextRegex = "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-" +
-    "9][0-9]?)$";
-            this.txtLiveSubnet.ValidColor = System.Drawing.SystemColors.Window;
-            // 
             // label11
             // 
             this.label11.AutoSize = true;
@@ -803,23 +771,6 @@ namespace XboxEepromEditor.Forms
             this.label11.Size = new System.Drawing.Size(73, 13);
             this.label11.TabIndex = 21;
             this.label11.Text = "Subnet Mask:";
-            // 
-            // txtLiveGateway
-            // 
-            this.txtLiveGateway.BackColor = System.Drawing.SystemColors.Window;
-            this.txtLiveGateway.CharacterRegex = "[0-9\\.]";
-            this.txtLiveGateway.ExactLengthRequired = 0;
-            this.txtLiveGateway.ForceUpperCase = false;
-            this.txtLiveGateway.InvalidColor = System.Drawing.Color.Yellow;
-            this.txtLiveGateway.Location = new System.Drawing.Point(105, 74);
-            this.txtLiveGateway.MaxLength = 15;
-            this.txtLiveGateway.Name = "txtLiveGateway";
-            this.txtLiveGateway.Size = new System.Drawing.Size(88, 20);
-            this.txtLiveGateway.TabIndex = 20;
-            this.txtLiveGateway.Text = "255.255.255.255";
-            this.txtLiveGateway.TextRegex = "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-" +
-    "9][0-9]?)$";
-            this.txtLiveGateway.ValidColor = System.Drawing.SystemColors.Window;
             // 
             // label14
             // 
@@ -830,23 +781,6 @@ namespace XboxEepromEditor.Forms
             this.label14.TabIndex = 19;
             this.label14.Text = "Gateway:";
             // 
-            // txtLiveDns
-            // 
-            this.txtLiveDns.BackColor = System.Drawing.SystemColors.Window;
-            this.txtLiveDns.CharacterRegex = "[0-9\\.]";
-            this.txtLiveDns.ExactLengthRequired = 0;
-            this.txtLiveDns.ForceUpperCase = false;
-            this.txtLiveDns.InvalidColor = System.Drawing.Color.Yellow;
-            this.txtLiveDns.Location = new System.Drawing.Point(105, 48);
-            this.txtLiveDns.MaxLength = 15;
-            this.txtLiveDns.Name = "txtLiveDns";
-            this.txtLiveDns.Size = new System.Drawing.Size(88, 20);
-            this.txtLiveDns.TabIndex = 18;
-            this.txtLiveDns.Text = "255.255.255.255";
-            this.txtLiveDns.TextRegex = "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-" +
-    "9][0-9]?)$";
-            this.txtLiveDns.ValidColor = System.Drawing.SystemColors.Window;
-            // 
             // label15
             // 
             this.label15.AutoSize = true;
@@ -855,23 +789,6 @@ namespace XboxEepromEditor.Forms
             this.label15.Size = new System.Drawing.Size(67, 13);
             this.label15.TabIndex = 17;
             this.label15.Text = "DNS Server:";
-            // 
-            // txtLiveAddress
-            // 
-            this.txtLiveAddress.BackColor = System.Drawing.SystemColors.Window;
-            this.txtLiveAddress.CharacterRegex = "[0-9\\.]";
-            this.txtLiveAddress.ExactLengthRequired = 0;
-            this.txtLiveAddress.ForceUpperCase = false;
-            this.txtLiveAddress.InvalidColor = System.Drawing.Color.Yellow;
-            this.txtLiveAddress.Location = new System.Drawing.Point(105, 22);
-            this.txtLiveAddress.MaxLength = 15;
-            this.txtLiveAddress.Name = "txtLiveAddress";
-            this.txtLiveAddress.Size = new System.Drawing.Size(88, 20);
-            this.txtLiveAddress.TabIndex = 16;
-            this.txtLiveAddress.Text = "255.255.255.255";
-            this.txtLiveAddress.TextRegex = "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-" +
-    "9][0-9]?)$";
-            this.txtLiveAddress.ValidColor = System.Drawing.SystemColors.Window;
             // 
             // label17
             // 
@@ -915,24 +832,6 @@ namespace XboxEepromEditor.Forms
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Unknown Values";
             // 
-            // txtUnknownF4
-            // 
-            this.txtUnknownF4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtUnknownF4.BackColor = System.Drawing.SystemColors.Window;
-            this.txtUnknownF4.CharacterRegex = "[0-9A-F]";
-            this.txtUnknownF4.ExactLengthRequired = 8;
-            this.txtUnknownF4.ForceUpperCase = true;
-            this.txtUnknownF4.InvalidColor = System.Drawing.Color.Yellow;
-            this.txtUnknownF4.Location = new System.Drawing.Point(105, 126);
-            this.txtUnknownF4.MaxLength = 8;
-            this.txtUnknownF4.Name = "txtUnknownF4";
-            this.txtUnknownF4.Size = new System.Drawing.Size(70, 20);
-            this.txtUnknownF4.TabIndex = 30;
-            this.txtUnknownF4.Text = "DDDDDDDD";
-            this.txtUnknownF4.TextRegex = "[0-9A-F]+";
-            this.txtUnknownF4.ValidColor = System.Drawing.SystemColors.Window;
-            // 
             // label25
             // 
             this.label25.AutoSize = true;
@@ -941,26 +840,6 @@ namespace XboxEepromEditor.Forms
             this.label25.Size = new System.Drawing.Size(82, 13);
             this.label25.TabIndex = 29;
             this.label25.Text = "Unknown 0xF4:";
-            // 
-            // txtUnknownC0
-            // 
-            this.txtUnknownC0.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtUnknownC0.BackColor = System.Drawing.SystemColors.Window;
-            this.txtUnknownC0.CharacterRegex = "[0-9A-F]";
-            this.txtUnknownC0.ExactLengthRequired = 104;
-            this.txtUnknownC0.ForceUpperCase = true;
-            this.txtUnknownC0.InvalidColor = System.Drawing.Color.Yellow;
-            this.txtUnknownC0.Location = new System.Drawing.Point(105, 152);
-            this.txtUnknownC0.MaxLength = 104;
-            this.txtUnknownC0.Multiline = true;
-            this.txtUnknownC0.Name = "txtUnknownC0";
-            this.txtUnknownC0.Size = new System.Drawing.Size(264, 58);
-            this.txtUnknownC0.TabIndex = 28;
-            this.txtUnknownC0.Text = "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD" +
-    "DDDDDDDDDDDDDDDDDDDDDDD";
-            this.txtUnknownC0.TextRegex = "[0-9A-F]+";
-            this.txtUnknownC0.ValidColor = System.Drawing.SystemColors.Window;
             // 
             // label33
             // 
@@ -971,22 +850,6 @@ namespace XboxEepromEditor.Forms
             this.label33.TabIndex = 27;
             this.label33.Text = "Unknown 0xC0:";
             // 
-            // txtPadding80
-            // 
-            this.txtPadding80.BackColor = System.Drawing.SystemColors.Window;
-            this.txtPadding80.CharacterRegex = "[0-9A-F]";
-            this.txtPadding80.ExactLengthRequired = 16;
-            this.txtPadding80.ForceUpperCase = true;
-            this.txtPadding80.InvalidColor = System.Drawing.Color.Yellow;
-            this.txtPadding80.Location = new System.Drawing.Point(105, 100);
-            this.txtPadding80.MaxLength = 16;
-            this.txtPadding80.Name = "txtPadding80";
-            this.txtPadding80.Size = new System.Drawing.Size(134, 20);
-            this.txtPadding80.TabIndex = 24;
-            this.txtPadding80.Text = "DDDDDDDDDDDDDDDD";
-            this.txtPadding80.TextRegex = "[0-9A-F]+";
-            this.txtPadding80.ValidColor = System.Drawing.SystemColors.Window;
-            // 
             // label24
             // 
             this.label24.AutoSize = true;
@@ -995,22 +858,6 @@ namespace XboxEepromEditor.Forms
             this.label24.Size = new System.Drawing.Size(75, 13);
             this.label24.TabIndex = 23;
             this.label24.Text = "Padding 0x80:";
-            // 
-            // txtPadding70
-            // 
-            this.txtPadding70.BackColor = System.Drawing.SystemColors.Window;
-            this.txtPadding70.CharacterRegex = "[0-9A-F]";
-            this.txtPadding70.ExactLengthRequired = 16;
-            this.txtPadding70.ForceUpperCase = true;
-            this.txtPadding70.InvalidColor = System.Drawing.Color.Yellow;
-            this.txtPadding70.Location = new System.Drawing.Point(105, 74);
-            this.txtPadding70.MaxLength = 16;
-            this.txtPadding70.Name = "txtPadding70";
-            this.txtPadding70.Size = new System.Drawing.Size(134, 20);
-            this.txtPadding70.TabIndex = 22;
-            this.txtPadding70.Text = "DDDDDDDDDDDDDDDD";
-            this.txtPadding70.TextRegex = "[0-9A-F]+";
-            this.txtPadding70.ValidColor = System.Drawing.SystemColors.Window;
             // 
             // label23
             // 
@@ -1021,22 +868,6 @@ namespace XboxEepromEditor.Forms
             this.label23.TabIndex = 21;
             this.label23.Text = "Padding 0x70:";
             // 
-            // txtPadding56
-            // 
-            this.txtPadding56.BackColor = System.Drawing.SystemColors.Window;
-            this.txtPadding56.CharacterRegex = "[0-9A-F]";
-            this.txtPadding56.ExactLengthRequired = 8;
-            this.txtPadding56.ForceUpperCase = true;
-            this.txtPadding56.InvalidColor = System.Drawing.Color.Yellow;
-            this.txtPadding56.Location = new System.Drawing.Point(105, 48);
-            this.txtPadding56.MaxLength = 8;
-            this.txtPadding56.Name = "txtPadding56";
-            this.txtPadding56.Size = new System.Drawing.Size(70, 20);
-            this.txtPadding56.TabIndex = 20;
-            this.txtPadding56.Text = "DDDDDDDD";
-            this.txtPadding56.TextRegex = "[0-9A-F]+";
-            this.txtPadding56.ValidColor = System.Drawing.SystemColors.Window;
-            // 
             // label21
             // 
             this.label21.AutoSize = true;
@@ -1045,22 +876,6 @@ namespace XboxEepromEditor.Forms
             this.label21.Size = new System.Drawing.Size(75, 13);
             this.label21.TabIndex = 19;
             this.label21.Text = "Padding 0x56:";
-            // 
-            // txtPadding46
-            // 
-            this.txtPadding46.BackColor = System.Drawing.SystemColors.Window;
-            this.txtPadding46.CharacterRegex = "[0-9A-F]";
-            this.txtPadding46.ExactLengthRequired = 4;
-            this.txtPadding46.ForceUpperCase = true;
-            this.txtPadding46.InvalidColor = System.Drawing.Color.Yellow;
-            this.txtPadding46.Location = new System.Drawing.Point(105, 22);
-            this.txtPadding46.MaxLength = 4;
-            this.txtPadding46.Name = "txtPadding46";
-            this.txtPadding46.Size = new System.Drawing.Size(38, 20);
-            this.txtPadding46.TabIndex = 18;
-            this.txtPadding46.Text = "DDDD";
-            this.txtPadding46.TextRegex = "[0-9A-F]+";
-            this.txtPadding46.ValidColor = System.Drawing.SystemColors.Window;
             // 
             // label20
             // 
@@ -1161,6 +976,268 @@ namespace XboxEepromEditor.Forms
             this.label27.TabIndex = 45;
             this.label27.Text = "Unknown 0xB8:";
             // 
+            // mnuArduinoPromConfigureTest
+            // 
+            this.mnuArduinoPromConfigureTest.Name = "mnuArduinoPromConfigureTest";
+            this.mnuArduinoPromConfigureTest.Size = new System.Drawing.Size(180, 22);
+            this.mnuArduinoPromConfigureTest.Text = "Verify Connection";
+            this.mnuArduinoPromConfigureTest.Click += new System.EventHandler(this.mnuArduinoPromConfigureTest_Click);
+            // 
+            // txtConfounder
+            // 
+            this.txtConfounder.BackColor = System.Drawing.SystemColors.Window;
+            this.txtConfounder.CharacterRegex = "[0-9A-F]";
+            this.txtConfounder.ExactLengthRequired = 16;
+            this.txtConfounder.ForceUpperCase = true;
+            this.txtConfounder.InvalidColor = System.Drawing.Color.Yellow;
+            this.txtConfounder.Location = new System.Drawing.Point(105, 50);
+            this.txtConfounder.MaxLength = 16;
+            this.txtConfounder.Name = "txtConfounder";
+            this.txtConfounder.Size = new System.Drawing.Size(134, 20);
+            this.txtConfounder.TabIndex = 3;
+            this.txtConfounder.Text = "DDDDDDDDDDDDDDDD";
+            this.txtConfounder.TextRegex = "[0-9A-F]+";
+            this.txtConfounder.ValidColor = System.Drawing.SystemColors.Window;
+            // 
+            // txtHddKey
+            // 
+            this.txtHddKey.BackColor = System.Drawing.SystemColors.Window;
+            this.txtHddKey.CharacterRegex = "[0-9A-F]";
+            this.txtHddKey.ExactLengthRequired = 32;
+            this.txtHddKey.ForceUpperCase = true;
+            this.txtHddKey.InvalidColor = System.Drawing.Color.Yellow;
+            this.txtHddKey.Location = new System.Drawing.Point(105, 76);
+            this.txtHddKey.MaxLength = 32;
+            this.txtHddKey.Name = "txtHddKey";
+            this.txtHddKey.Size = new System.Drawing.Size(262, 20);
+            this.txtHddKey.TabIndex = 5;
+            this.txtHddKey.Text = "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD";
+            this.txtHddKey.TextRegex = "[0-9A-F]+";
+            this.txtHddKey.ValidColor = System.Drawing.SystemColors.Window;
+            // 
+            // txtOnlineKey
+            // 
+            this.txtOnlineKey.BackColor = System.Drawing.SystemColors.Window;
+            this.txtOnlineKey.CharacterRegex = "[0-9A-F]";
+            this.txtOnlineKey.ExactLengthRequired = 32;
+            this.txtOnlineKey.ForceUpperCase = true;
+            this.txtOnlineKey.InvalidColor = System.Drawing.Color.Yellow;
+            this.txtOnlineKey.Location = new System.Drawing.Point(105, 74);
+            this.txtOnlineKey.MaxLength = 32;
+            this.txtOnlineKey.Name = "txtOnlineKey";
+            this.txtOnlineKey.Size = new System.Drawing.Size(262, 20);
+            this.txtOnlineKey.TabIndex = 20;
+            this.txtOnlineKey.Text = "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD";
+            this.txtOnlineKey.TextRegex = "[0-9A-F]+";
+            this.txtOnlineKey.ValidColor = System.Drawing.SystemColors.Window;
+            // 
+            // txtMacAddress
+            // 
+            this.txtMacAddress.BackColor = System.Drawing.SystemColors.Window;
+            this.txtMacAddress.CharacterRegex = "[0-9A-F]";
+            this.txtMacAddress.ExactLengthRequired = 12;
+            this.txtMacAddress.ForceUpperCase = true;
+            this.txtMacAddress.InvalidColor = System.Drawing.Color.Yellow;
+            this.txtMacAddress.Location = new System.Drawing.Point(105, 48);
+            this.txtMacAddress.MaxLength = 12;
+            this.txtMacAddress.Name = "txtMacAddress";
+            this.txtMacAddress.Size = new System.Drawing.Size(103, 20);
+            this.txtMacAddress.TabIndex = 18;
+            this.txtMacAddress.Text = "DDDDDDDDDDDD";
+            this.txtMacAddress.TextRegex = "[0-9A-F]+";
+            this.txtMacAddress.ValidColor = System.Drawing.SystemColors.Window;
+            // 
+            // txtSerial
+            // 
+            this.txtSerial.BackColor = System.Drawing.SystemColors.Window;
+            this.txtSerial.CharacterRegex = "[0-9]";
+            this.txtSerial.ExactLengthRequired = 12;
+            this.txtSerial.ForceUpperCase = false;
+            this.txtSerial.InvalidColor = System.Drawing.Color.Yellow;
+            this.txtSerial.Location = new System.Drawing.Point(105, 22);
+            this.txtSerial.MaxLength = 12;
+            this.txtSerial.Name = "txtSerial";
+            this.txtSerial.Size = new System.Drawing.Size(103, 20);
+            this.txtSerial.TabIndex = 16;
+            this.txtSerial.Text = "000000000000";
+            this.txtSerial.TextRegex = "[0-9]+";
+            this.txtSerial.ValidColor = System.Drawing.SystemColors.Window;
+            // 
+            // txtLiveSubnet
+            // 
+            this.txtLiveSubnet.BackColor = System.Drawing.SystemColors.Window;
+            this.txtLiveSubnet.CharacterRegex = "[0-9\\.]";
+            this.txtLiveSubnet.ExactLengthRequired = 0;
+            this.txtLiveSubnet.ForceUpperCase = false;
+            this.txtLiveSubnet.InvalidColor = System.Drawing.Color.Yellow;
+            this.txtLiveSubnet.Location = new System.Drawing.Point(105, 100);
+            this.txtLiveSubnet.MaxLength = 15;
+            this.txtLiveSubnet.Name = "txtLiveSubnet";
+            this.txtLiveSubnet.Size = new System.Drawing.Size(88, 20);
+            this.txtLiveSubnet.TabIndex = 22;
+            this.txtLiveSubnet.Text = "255.255.255.255";
+            this.txtLiveSubnet.TextRegex = "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-" +
+    "9][0-9]?)$";
+            this.txtLiveSubnet.ValidColor = System.Drawing.SystemColors.Window;
+            // 
+            // txtLiveGateway
+            // 
+            this.txtLiveGateway.BackColor = System.Drawing.SystemColors.Window;
+            this.txtLiveGateway.CharacterRegex = "[0-9\\.]";
+            this.txtLiveGateway.ExactLengthRequired = 0;
+            this.txtLiveGateway.ForceUpperCase = false;
+            this.txtLiveGateway.InvalidColor = System.Drawing.Color.Yellow;
+            this.txtLiveGateway.Location = new System.Drawing.Point(105, 74);
+            this.txtLiveGateway.MaxLength = 15;
+            this.txtLiveGateway.Name = "txtLiveGateway";
+            this.txtLiveGateway.Size = new System.Drawing.Size(88, 20);
+            this.txtLiveGateway.TabIndex = 20;
+            this.txtLiveGateway.Text = "255.255.255.255";
+            this.txtLiveGateway.TextRegex = "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-" +
+    "9][0-9]?)$";
+            this.txtLiveGateway.ValidColor = System.Drawing.SystemColors.Window;
+            // 
+            // txtLiveDns
+            // 
+            this.txtLiveDns.BackColor = System.Drawing.SystemColors.Window;
+            this.txtLiveDns.CharacterRegex = "[0-9\\.]";
+            this.txtLiveDns.ExactLengthRequired = 0;
+            this.txtLiveDns.ForceUpperCase = false;
+            this.txtLiveDns.InvalidColor = System.Drawing.Color.Yellow;
+            this.txtLiveDns.Location = new System.Drawing.Point(105, 48);
+            this.txtLiveDns.MaxLength = 15;
+            this.txtLiveDns.Name = "txtLiveDns";
+            this.txtLiveDns.Size = new System.Drawing.Size(88, 20);
+            this.txtLiveDns.TabIndex = 18;
+            this.txtLiveDns.Text = "255.255.255.255";
+            this.txtLiveDns.TextRegex = "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-" +
+    "9][0-9]?)$";
+            this.txtLiveDns.ValidColor = System.Drawing.SystemColors.Window;
+            // 
+            // txtLiveAddress
+            // 
+            this.txtLiveAddress.BackColor = System.Drawing.SystemColors.Window;
+            this.txtLiveAddress.CharacterRegex = "[0-9\\.]";
+            this.txtLiveAddress.ExactLengthRequired = 0;
+            this.txtLiveAddress.ForceUpperCase = false;
+            this.txtLiveAddress.InvalidColor = System.Drawing.Color.Yellow;
+            this.txtLiveAddress.Location = new System.Drawing.Point(105, 22);
+            this.txtLiveAddress.MaxLength = 15;
+            this.txtLiveAddress.Name = "txtLiveAddress";
+            this.txtLiveAddress.Size = new System.Drawing.Size(88, 20);
+            this.txtLiveAddress.TabIndex = 16;
+            this.txtLiveAddress.Text = "255.255.255.255";
+            this.txtLiveAddress.TextRegex = "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-" +
+    "9][0-9]?)$";
+            this.txtLiveAddress.ValidColor = System.Drawing.SystemColors.Window;
+            // 
+            // txtUnknownF4
+            // 
+            this.txtUnknownF4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtUnknownF4.BackColor = System.Drawing.SystemColors.Window;
+            this.txtUnknownF4.CharacterRegex = "[0-9A-F]";
+            this.txtUnknownF4.ExactLengthRequired = 8;
+            this.txtUnknownF4.ForceUpperCase = true;
+            this.txtUnknownF4.InvalidColor = System.Drawing.Color.Yellow;
+            this.txtUnknownF4.Location = new System.Drawing.Point(105, 126);
+            this.txtUnknownF4.MaxLength = 8;
+            this.txtUnknownF4.Name = "txtUnknownF4";
+            this.txtUnknownF4.Size = new System.Drawing.Size(70, 20);
+            this.txtUnknownF4.TabIndex = 30;
+            this.txtUnknownF4.Text = "DDDDDDDD";
+            this.txtUnknownF4.TextRegex = "[0-9A-F]+";
+            this.txtUnknownF4.ValidColor = System.Drawing.SystemColors.Window;
+            // 
+            // txtUnknownC0
+            // 
+            this.txtUnknownC0.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtUnknownC0.BackColor = System.Drawing.SystemColors.Window;
+            this.txtUnknownC0.CharacterRegex = "[0-9A-F]";
+            this.txtUnknownC0.ExactLengthRequired = 104;
+            this.txtUnknownC0.ForceUpperCase = true;
+            this.txtUnknownC0.InvalidColor = System.Drawing.Color.Yellow;
+            this.txtUnknownC0.Location = new System.Drawing.Point(105, 152);
+            this.txtUnknownC0.MaxLength = 104;
+            this.txtUnknownC0.Multiline = true;
+            this.txtUnknownC0.Name = "txtUnknownC0";
+            this.txtUnknownC0.Size = new System.Drawing.Size(264, 58);
+            this.txtUnknownC0.TabIndex = 28;
+            this.txtUnknownC0.Text = "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD" +
+    "DDDDDDDDDDDDDDDDDDDDDDD";
+            this.txtUnknownC0.TextRegex = "[0-9A-F]+";
+            this.txtUnknownC0.ValidColor = System.Drawing.SystemColors.Window;
+            // 
+            // txtPadding80
+            // 
+            this.txtPadding80.BackColor = System.Drawing.SystemColors.Window;
+            this.txtPadding80.CharacterRegex = "[0-9A-F]";
+            this.txtPadding80.ExactLengthRequired = 16;
+            this.txtPadding80.ForceUpperCase = true;
+            this.txtPadding80.InvalidColor = System.Drawing.Color.Yellow;
+            this.txtPadding80.Location = new System.Drawing.Point(105, 100);
+            this.txtPadding80.MaxLength = 16;
+            this.txtPadding80.Name = "txtPadding80";
+            this.txtPadding80.Size = new System.Drawing.Size(134, 20);
+            this.txtPadding80.TabIndex = 24;
+            this.txtPadding80.Text = "DDDDDDDDDDDDDDDD";
+            this.txtPadding80.TextRegex = "[0-9A-F]+";
+            this.txtPadding80.ValidColor = System.Drawing.SystemColors.Window;
+            // 
+            // txtPadding70
+            // 
+            this.txtPadding70.BackColor = System.Drawing.SystemColors.Window;
+            this.txtPadding70.CharacterRegex = "[0-9A-F]";
+            this.txtPadding70.ExactLengthRequired = 16;
+            this.txtPadding70.ForceUpperCase = true;
+            this.txtPadding70.InvalidColor = System.Drawing.Color.Yellow;
+            this.txtPadding70.Location = new System.Drawing.Point(105, 74);
+            this.txtPadding70.MaxLength = 16;
+            this.txtPadding70.Name = "txtPadding70";
+            this.txtPadding70.Size = new System.Drawing.Size(134, 20);
+            this.txtPadding70.TabIndex = 22;
+            this.txtPadding70.Text = "DDDDDDDDDDDDDDDD";
+            this.txtPadding70.TextRegex = "[0-9A-F]+";
+            this.txtPadding70.ValidColor = System.Drawing.SystemColors.Window;
+            // 
+            // txtPadding56
+            // 
+            this.txtPadding56.BackColor = System.Drawing.SystemColors.Window;
+            this.txtPadding56.CharacterRegex = "[0-9A-F]";
+            this.txtPadding56.ExactLengthRequired = 8;
+            this.txtPadding56.ForceUpperCase = true;
+            this.txtPadding56.InvalidColor = System.Drawing.Color.Yellow;
+            this.txtPadding56.Location = new System.Drawing.Point(105, 48);
+            this.txtPadding56.MaxLength = 8;
+            this.txtPadding56.Name = "txtPadding56";
+            this.txtPadding56.Size = new System.Drawing.Size(70, 20);
+            this.txtPadding56.TabIndex = 20;
+            this.txtPadding56.Text = "DDDDDDDD";
+            this.txtPadding56.TextRegex = "[0-9A-F]+";
+            this.txtPadding56.ValidColor = System.Drawing.SystemColors.Window;
+            // 
+            // txtPadding46
+            // 
+            this.txtPadding46.BackColor = System.Drawing.SystemColors.Window;
+            this.txtPadding46.CharacterRegex = "[0-9A-F]";
+            this.txtPadding46.ExactLengthRequired = 4;
+            this.txtPadding46.ForceUpperCase = true;
+            this.txtPadding46.InvalidColor = System.Drawing.Color.Yellow;
+            this.txtPadding46.Location = new System.Drawing.Point(105, 22);
+            this.txtPadding46.MaxLength = 4;
+            this.txtPadding46.Name = "txtPadding46";
+            this.txtPadding46.Size = new System.Drawing.Size(38, 20);
+            this.txtPadding46.TabIndex = 18;
+            this.txtPadding46.Text = "DDDD";
+            this.txtPadding46.TextRegex = "[0-9A-F]+";
+            this.txtPadding46.ValidColor = System.Drawing.SystemColors.Window;
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1173,6 +1250,7 @@ namespace XboxEepromEditor.Forms
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Original Xbox EEPROM Editor";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
@@ -1474,6 +1552,16 @@ namespace XboxEepromEditor.Forms
         }
 
         #endregion
+
+        private ToolStripMenuItem mnuArduinoProm;
+        private ToolStripMenuItem mnuArduinoPromRead;
+        private ToolStripMenuItem mnuArduinoPromWrite;
+        private ToolStripMenuItem mnuArduinoPromConfigure;
+        private ToolStripMenuItem mnuArduinoPromRepository;
+        private ToolStripMenuItem mnuArduinoPromDetect;
+        private ToolStripMenuItem mnuArduinoPromDetectEEPROM;
+        private ToolStripMenuItem mnuArduinoPromConfigureTest;
+        private ToolStripSeparator toolStripMenuItem1;
     }
 }
 
