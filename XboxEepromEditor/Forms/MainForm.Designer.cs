@@ -41,13 +41,11 @@ namespace XboxEepromEditor.Forms
             this.mnuExportTxt = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuReset = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuUtilities = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuArduinoProm = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuArduinoPromRead = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuArduinoPromWrite = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuArduinoPromConfigure = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuArduinoPromDetect = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuArduinoPromDetectEEPROM = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuArduinoPromRepository = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuArduinoPromAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tabGeneral = new System.Windows.Forms.TabPage();
@@ -112,7 +110,6 @@ namespace XboxEepromEditor.Forms
             this.label28 = new System.Windows.Forms.Label();
             this.lvUnknownB8 = new System.Windows.Forms.ListView();
             this.label27 = new System.Windows.Forms.Label();
-            this.mnuArduinoPromConfigureTest = new System.Windows.Forms.ToolStripMenuItem();
             this.txtConfounder = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.txtHddKey = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.txtOnlineKey = new XboxEepromEditor.Controls.ValidatedTextBox();
@@ -128,7 +125,6 @@ namespace XboxEepromEditor.Forms
             this.txtPadding70 = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.txtPadding56 = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.txtPadding46 = new XboxEepromEditor.Controls.ValidatedTextBox();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.tabGeneral.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -151,7 +147,7 @@ namespace XboxEepromEditor.Forms
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuFile,
-            this.mnuArduinoProm,
+            this.mnuUtilities,
             this.mnuAbout});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -174,92 +170,75 @@ namespace XboxEepromEditor.Forms
             // mnuOpen
             // 
             this.mnuOpen.Name = "mnuOpen";
-            this.mnuOpen.Size = new System.Drawing.Size(180, 22);
+            this.mnuOpen.Size = new System.Drawing.Size(130, 22);
             this.mnuOpen.Text = "Open";
             this.mnuOpen.Click += new System.EventHandler(this.mnuOpen_Click);
             // 
             // mnuSaveAs
             // 
             this.mnuSaveAs.Name = "mnuSaveAs";
-            this.mnuSaveAs.Size = new System.Drawing.Size(180, 22);
+            this.mnuSaveAs.Size = new System.Drawing.Size(130, 22);
             this.mnuSaveAs.Text = "Save As";
             this.mnuSaveAs.Click += new System.EventHandler(this.mnuSaveAs_Click);
             // 
             // mnuExportTxt
             // 
             this.mnuExportTxt.Name = "mnuExportTxt";
-            this.mnuExportTxt.Size = new System.Drawing.Size(180, 22);
+            this.mnuExportTxt.Size = new System.Drawing.Size(130, 22);
             this.mnuExportTxt.Text = "Export TXT";
             this.mnuExportTxt.Click += new System.EventHandler(this.mnuExportTxt_Click);
             // 
             // mnuReset
             // 
             this.mnuReset.Name = "mnuReset";
-            this.mnuReset.Size = new System.Drawing.Size(180, 22);
+            this.mnuReset.Size = new System.Drawing.Size(130, 22);
             this.mnuReset.Text = "Reset";
             this.mnuReset.Click += new System.EventHandler(this.mnuReset_Click);
             // 
             // mnuExit
             // 
             this.mnuExit.Name = "mnuExit";
-            this.mnuExit.Size = new System.Drawing.Size(180, 22);
+            this.mnuExit.Size = new System.Drawing.Size(130, 22);
             this.mnuExit.Text = "Exit";
             this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
+            // 
+            // mnuUtilities
+            // 
+            this.mnuUtilities.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuArduinoProm});
+            this.mnuUtilities.Name = "mnuUtilities";
+            this.mnuUtilities.Size = new System.Drawing.Size(58, 20);
+            this.mnuUtilities.Text = "Utilities";
             // 
             // mnuArduinoProm
             // 
             this.mnuArduinoProm.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuArduinoPromRead,
             this.mnuArduinoPromWrite,
-            this.mnuArduinoPromConfigure,
-            this.mnuArduinoPromDetect,
-            this.mnuArduinoPromDetectEEPROM,
-            this.mnuArduinoPromRepository});
+            this.mnuArduinoPromAbout});
             this.mnuArduinoProm.Name = "mnuArduinoProm";
-            this.mnuArduinoProm.Size = new System.Drawing.Size(91, 20);
+            this.mnuArduinoProm.Size = new System.Drawing.Size(146, 22);
             this.mnuArduinoProm.Text = "ArduinoProm";
+            this.mnuArduinoProm.DropDownOpening += new System.EventHandler(this.mnuArduinoProm_DropDownOpening);
             // 
             // mnuArduinoPromRead
             // 
             this.mnuArduinoPromRead.Name = "mnuArduinoPromRead";
-            this.mnuArduinoPromRead.Size = new System.Drawing.Size(205, 22);
+            this.mnuArduinoPromRead.Size = new System.Drawing.Size(107, 22);
             this.mnuArduinoPromRead.Text = "Read";
-            this.mnuArduinoPromRead.Click += new System.EventHandler(this.mnuArduinoPromRead_Click);
             // 
             // mnuArduinoPromWrite
             // 
             this.mnuArduinoPromWrite.Name = "mnuArduinoPromWrite";
-            this.mnuArduinoPromWrite.Size = new System.Drawing.Size(205, 22);
+            this.mnuArduinoPromWrite.Size = new System.Drawing.Size(107, 22);
             this.mnuArduinoPromWrite.Text = "Write";
-            this.mnuArduinoPromWrite.Click += new System.EventHandler(this.mnuArduinoPromWrite_Click);
             // 
-            // mnuArduinoPromConfigure
+            // mnuArduinoPromAbout
             // 
-            this.mnuArduinoPromConfigure.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuArduinoPromConfigureTest,
-            this.toolStripMenuItem1});
-            this.mnuArduinoPromConfigure.Name = "mnuArduinoPromConfigure";
-            this.mnuArduinoPromConfigure.Size = new System.Drawing.Size(205, 22);
-            this.mnuArduinoPromConfigure.Text = "Configure";
-            // 
-            // mnuArduinoPromDetect
-            // 
-            this.mnuArduinoPromDetect.Name = "mnuArduinoPromDetect";
-            this.mnuArduinoPromDetect.Size = new System.Drawing.Size(205, 22);
-            this.mnuArduinoPromDetect.Text = "Detect ArduinoProm";
-            // 
-            // mnuArduinoPromDetectEEPROM
-            // 
-            this.mnuArduinoPromDetectEEPROM.Name = "mnuArduinoPromDetectEEPROM";
-            this.mnuArduinoPromDetectEEPROM.Size = new System.Drawing.Size(205, 22);
-            this.mnuArduinoPromDetectEEPROM.Text = "Detect EEPROM";
-            // 
-            // mnuArduinoPromRepository
-            // 
-            this.mnuArduinoPromRepository.Name = "mnuArduinoPromRepository";
-            this.mnuArduinoPromRepository.Size = new System.Drawing.Size(205, 22);
-            this.mnuArduinoPromRepository.Text = "ArduinoProm Repository";
-            this.mnuArduinoPromRepository.Click += new System.EventHandler(this.mnuArduinoPromRepository_Click);
+            this.mnuArduinoPromAbout.Name = "mnuArduinoPromAbout";
+            this.mnuArduinoPromAbout.Size = new System.Drawing.Size(107, 22);
+            this.mnuArduinoPromAbout.Text = "About";
+            this.mnuArduinoPromAbout.Click += new System.EventHandler(this.mnuArduinoPromAbout_Click);
             // 
             // mnuAbout
             // 
@@ -976,13 +955,6 @@ namespace XboxEepromEditor.Forms
             this.label27.TabIndex = 45;
             this.label27.Text = "Unknown 0xB8:";
             // 
-            // mnuArduinoPromConfigureTest
-            // 
-            this.mnuArduinoPromConfigureTest.Name = "mnuArduinoPromConfigureTest";
-            this.mnuArduinoPromConfigureTest.Size = new System.Drawing.Size(180, 22);
-            this.mnuArduinoPromConfigureTest.Text = "Verify Connection";
-            this.mnuArduinoPromConfigureTest.Click += new System.EventHandler(this.mnuArduinoPromConfigureTest_Click);
-            // 
             // txtConfounder
             // 
             this.txtConfounder.BackColor = System.Drawing.SystemColors.Window;
@@ -1233,11 +1205,6 @@ namespace XboxEepromEditor.Forms
             this.txtPadding46.TextRegex = "[0-9A-F]+";
             this.txtPadding46.ValidColor = System.Drawing.SystemColors.Window;
             // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1249,6 +1216,7 @@ namespace XboxEepromEditor.Forms
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Original Xbox EEPROM Editor";
@@ -1552,16 +1520,11 @@ namespace XboxEepromEditor.Forms
         }
 
         #endregion
-
+        private ToolStripMenuItem mnuUtilities;
         private ToolStripMenuItem mnuArduinoProm;
         private ToolStripMenuItem mnuArduinoPromRead;
         private ToolStripMenuItem mnuArduinoPromWrite;
-        private ToolStripMenuItem mnuArduinoPromConfigure;
-        private ToolStripMenuItem mnuArduinoPromRepository;
-        private ToolStripMenuItem mnuArduinoPromDetect;
-        private ToolStripMenuItem mnuArduinoPromDetectEEPROM;
-        private ToolStripMenuItem mnuArduinoPromConfigureTest;
-        private ToolStripSeparator toolStripMenuItem1;
+        private ToolStripMenuItem mnuArduinoPromAbout;
     }
 }
 

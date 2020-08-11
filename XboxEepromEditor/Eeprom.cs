@@ -709,36 +709,16 @@ namespace XboxEepromEditor
         #endregion
 
         /// <summary>
-        /// Initialize a default EEPROM of specified version.
+        /// Initialize an EEPROM from the specified byte array.
         /// </summary>
-        /// <param name="version"></param>
-        public Eeprom(EepromVersion version = EepromVersion.RetailFirst)
+        /// <param name="data"></param>
+        public Eeprom(byte[] data)
         {
-            Data = new byte[Size];
-            Stream = new MemoryStream(Data);
-            Reader = new BinaryReader(Stream);
-            Writer = new BinaryWriter(Stream);
-
-            // defaults
-            Version = version;
-            Region = Region.NorthAmerica;
-            VideoStandard = VideoStandard.NtscM;
-            Language = Language.English;
-
-            // randomly generate new keys and hardware info
-            Serial = GeneratRandomSerial();
-            Confounder = new byte[8].FillRandom();
-            HddKey = new byte[16].FillRandom();
-            OnlineKey = new byte[16].FillRandom();
-            MacAddress = GenerateRandomMac();
-        }
-
-        public Eeprom(string file)
-        {
-            Data = File.ReadAllBytes(file);
-
-            if (Data.Length != Size)
+            if (data.Length != Size)
                 throw new InvalidDataException("EEPROM must be 256 bytes.");
+
+            Data = new byte[Size];
+            data.CopyTo(Data, 0);
 
             Stream = new MemoryStream(Data);
             Reader = new BinaryReader(Stream);
@@ -775,22 +755,48 @@ namespace XboxEepromEditor
         }
 
         /// <summary>
-        /// Saves the eeprom contents to file.
-        /// If the version is unknown the security section will not be overwritten.
+        /// Initialize a default EEPROM of specified version.
+        /// </summary>
+        /// <param name="version"></param>
+        public Eeprom(EepromVersion version = EepromVersion.RetailFirst) :
+            this(new byte[Size])
+        {
+            // defaults
+            Version = version;
+            Region = Region.NorthAmerica;
+            VideoStandard = VideoStandard.NtscM;
+            Language = Language.English;
+
+            // randomly generate new keys and hardware info
+            Serial = GeneratRandomSerial();
+            Confounder = new byte[8].FillRandom();
+            HddKey = new byte[16].FillRandom();
+            OnlineKey = new byte[16].FillRandom();
+            MacAddress = GenerateRandomMac();
+        }
+
+        /// <summary>
+        /// Initialize an EEPROM from the specified file.
         /// </summary>
         /// <param name="file"></param>
-        public void Save(string file)
+        public Eeprom(string file) :
+            this(File.ReadAllBytes(file))
+        {
+           
+        }
+
+        /// <summary>
+        /// Returns the EEPROM contents (with encrypted security section unless version is unknown) as a byte array.
+        /// </summary>
+        /// <returns></returns>
+        public byte[] Save()
         {
             UpdateChecksums();
 
-            // skip writing security section if version is unknown
+            // write eeprom as-is if version is unknown
             if (Version == EepromVersion.Unknown)
             {
-                using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Write, FileShare.None))
-                {
-                    fs.Position = 0x30;
-                    fs.Write(Data, 0x30, Size - 0x30);
-                }
+                return Data;
             }
             else
             {
@@ -813,8 +819,17 @@ namespace XboxEepromEditor
                     rc4.Crypt(eepromCopy, 20, 28);
                 }
 
-                File.WriteAllBytes(file, eepromCopy);
+                return eepromCopy;
             }
+        }
+
+        /// <summary>
+        /// Saves the eeprom contents (with encrypted security section unless version is unknown) to a file.
+        /// </summary>
+        /// <param name="file"></param>
+        public void Save(string file)
+        {
+            File.WriteAllBytes(file, Save());
         }
 
         /// <summary>
