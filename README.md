@@ -1,7 +1,4 @@
-# Original Xbox EEPROM Editor (Beta)
-
-**NOTICE! - This application is still in the beta phase, please ensure you have an original backup of the EEPROM contents and an easy way to restore in case of issues.**
-**Binaries won't be provided until further testing has been completed and the tool is deemed save to use.**
+# Original Xbox EEPROM Editor
 
 ### Overview
 
