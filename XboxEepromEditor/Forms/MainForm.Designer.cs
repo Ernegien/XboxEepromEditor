@@ -52,7 +52,6 @@ namespace XboxEepromEditor.Forms
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lvAudio = new System.Windows.Forms.ListView();
             this.lvVideo = new System.Windows.Forms.ListView();
-            this.chkDst = new System.Windows.Forms.CheckBox();
             this.cmbDvdZone = new System.Windows.Forms.ComboBox();
             this.label16 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -98,8 +97,6 @@ namespace XboxEepromEditor.Forms
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.label25 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.tabUnknown2 = new System.Windows.Forms.TabPage();
@@ -121,8 +118,6 @@ namespace XboxEepromEditor.Forms
             this.txtLiveAddress = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.txtUnknownF4 = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.txtUnknownC0 = new XboxEepromEditor.Controls.ValidatedTextBox();
-            this.txtPadding80 = new XboxEepromEditor.Controls.ValidatedTextBox();
-            this.txtPadding70 = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.txtPadding56 = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.txtPadding46 = new XboxEepromEditor.Controls.ValidatedTextBox();
             this.menuStrip1.SuspendLayout();
@@ -271,7 +266,6 @@ namespace XboxEepromEditor.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.lvAudio);
             this.groupBox3.Controls.Add(this.lvVideo);
-            this.groupBox3.Controls.Add(this.chkDst);
             this.groupBox3.Controls.Add(this.cmbDvdZone);
             this.groupBox3.Controls.Add(this.label16);
             this.groupBox3.Controls.Add(this.label13);
@@ -311,17 +305,6 @@ namespace XboxEepromEditor.Forms
             this.lvVideo.TabIndex = 44;
             this.lvVideo.UseCompatibleStateImageBehavior = false;
             this.lvVideo.View = System.Windows.Forms.View.SmallIcon;
-            // 
-            // chkDst
-            // 
-            this.chkDst.AutoSize = true;
-            this.chkDst.Enabled = false;
-            this.chkDst.Location = new System.Drawing.Point(278, 26);
-            this.chkDst.Name = "chkDst";
-            this.chkDst.Size = new System.Drawing.Size(48, 17);
-            this.chkDst.TabIndex = 43;
-            this.chkDst.Text = "DST";
-            this.chkDst.UseVisualStyleBackColor = true;
             // 
             // cmbDvdZone
             // 
@@ -385,7 +368,6 @@ namespace XboxEepromEditor.Forms
             // 
             this.cmbTimeZone.DisplayMember = "Text";
             this.cmbTimeZone.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbTimeZone.Enabled = false;
             this.cmbTimeZone.FormattingEnabled = true;
             this.cmbTimeZone.Location = new System.Drawing.Point(105, 23);
             this.cmbTimeZone.Name = "cmbTimeZone";
@@ -796,17 +778,13 @@ namespace XboxEepromEditor.Forms
             this.groupBox6.Controls.Add(this.label25);
             this.groupBox6.Controls.Add(this.txtUnknownC0);
             this.groupBox6.Controls.Add(this.label33);
-            this.groupBox6.Controls.Add(this.txtPadding80);
-            this.groupBox6.Controls.Add(this.label24);
-            this.groupBox6.Controls.Add(this.txtPadding70);
-            this.groupBox6.Controls.Add(this.label23);
             this.groupBox6.Controls.Add(this.txtPadding56);
             this.groupBox6.Controls.Add(this.label21);
             this.groupBox6.Controls.Add(this.txtPadding46);
             this.groupBox6.Controls.Add(this.label20);
             this.groupBox6.Location = new System.Drawing.Point(8, 6);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(375, 218);
+            this.groupBox6.Size = new System.Drawing.Size(375, 168);
             this.groupBox6.TabIndex = 17;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Unknown Values";
@@ -814,7 +792,7 @@ namespace XboxEepromEditor.Forms
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(17, 129);
+            this.label25.Location = new System.Drawing.Point(17, 77);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(82, 13);
             this.label25.TabIndex = 29;
@@ -823,29 +801,11 @@ namespace XboxEepromEditor.Forms
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(16, 155);
+            this.label33.Location = new System.Drawing.Point(17, 103);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(83, 13);
             this.label33.TabIndex = 27;
             this.label33.Text = "Unknown 0xC0:";
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(24, 103);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(75, 13);
-            this.label24.TabIndex = 23;
-            this.label24.Text = "Padding 0x80:";
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(24, 77);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(75, 13);
-            this.label23.TabIndex = 21;
-            this.label23.Text = "Padding 0x70:";
             // 
             // label21
             // 
@@ -1112,7 +1072,7 @@ namespace XboxEepromEditor.Forms
             this.txtUnknownF4.ExactLengthRequired = 8;
             this.txtUnknownF4.ForceUpperCase = true;
             this.txtUnknownF4.InvalidColor = System.Drawing.Color.Yellow;
-            this.txtUnknownF4.Location = new System.Drawing.Point(105, 126);
+            this.txtUnknownF4.Location = new System.Drawing.Point(105, 74);
             this.txtUnknownF4.MaxLength = 8;
             this.txtUnknownF4.Name = "txtUnknownF4";
             this.txtUnknownF4.Size = new System.Drawing.Size(70, 20);
@@ -1130,7 +1090,7 @@ namespace XboxEepromEditor.Forms
             this.txtUnknownC0.ExactLengthRequired = 104;
             this.txtUnknownC0.ForceUpperCase = true;
             this.txtUnknownC0.InvalidColor = System.Drawing.Color.Yellow;
-            this.txtUnknownC0.Location = new System.Drawing.Point(105, 152);
+            this.txtUnknownC0.Location = new System.Drawing.Point(105, 100);
             this.txtUnknownC0.MaxLength = 104;
             this.txtUnknownC0.Multiline = true;
             this.txtUnknownC0.Name = "txtUnknownC0";
@@ -1140,38 +1100,6 @@ namespace XboxEepromEditor.Forms
     "DDDDDDDDDDDDDDDDDDDDDDD";
             this.txtUnknownC0.TextRegex = "[0-9A-F]+";
             this.txtUnknownC0.ValidColor = System.Drawing.SystemColors.Window;
-            // 
-            // txtPadding80
-            // 
-            this.txtPadding80.BackColor = System.Drawing.SystemColors.Window;
-            this.txtPadding80.CharacterRegex = "[0-9A-F]";
-            this.txtPadding80.ExactLengthRequired = 16;
-            this.txtPadding80.ForceUpperCase = true;
-            this.txtPadding80.InvalidColor = System.Drawing.Color.Yellow;
-            this.txtPadding80.Location = new System.Drawing.Point(105, 100);
-            this.txtPadding80.MaxLength = 16;
-            this.txtPadding80.Name = "txtPadding80";
-            this.txtPadding80.Size = new System.Drawing.Size(134, 20);
-            this.txtPadding80.TabIndex = 24;
-            this.txtPadding80.Text = "DDDDDDDDDDDDDDDD";
-            this.txtPadding80.TextRegex = "[0-9A-F]+";
-            this.txtPadding80.ValidColor = System.Drawing.SystemColors.Window;
-            // 
-            // txtPadding70
-            // 
-            this.txtPadding70.BackColor = System.Drawing.SystemColors.Window;
-            this.txtPadding70.CharacterRegex = "[0-9A-F]";
-            this.txtPadding70.ExactLengthRequired = 16;
-            this.txtPadding70.ForceUpperCase = true;
-            this.txtPadding70.InvalidColor = System.Drawing.Color.Yellow;
-            this.txtPadding70.Location = new System.Drawing.Point(105, 74);
-            this.txtPadding70.MaxLength = 16;
-            this.txtPadding70.Name = "txtPadding70";
-            this.txtPadding70.Size = new System.Drawing.Size(134, 20);
-            this.txtPadding70.TabIndex = 22;
-            this.txtPadding70.Text = "DDDDDDDDDDDDDDDD";
-            this.txtPadding70.TextRegex = "[0-9A-F]+";
-            this.txtPadding70.ValidColor = System.Drawing.SystemColors.Window;
             // 
             // txtPadding56
             // 
@@ -1309,15 +1237,10 @@ namespace XboxEepromEditor.Forms
         private System.Windows.Forms.TabPage tabUnknown1;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.ToolStripMenuItem mnuExportTxt;
-        private Controls.ValidatedTextBox txtPadding80;
-        private System.Windows.Forms.Label label24;
-        private Controls.ValidatedTextBox txtPadding70;
-        private System.Windows.Forms.Label label23;
         private Controls.ValidatedTextBox txtPadding56;
         private System.Windows.Forms.Label label21;
         private Controls.ValidatedTextBox txtPadding46;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.CheckBox chkDst;
         private System.Windows.Forms.ListView lvRegions;
         private ListView lvAudio;
         private ListView lvVideo;
@@ -1391,6 +1314,86 @@ namespace XboxEepromEditor.Forms
                 new { Text = "Region 5", Value = DvdPlaybackZone.Region5 },
                 new { Text = "Region 6", Value = DvdPlaybackZone.Region6 },
                 new { Text = "Unknown", Value = DvdPlaybackZone.Unknown }
+            };
+        }
+
+        private void PopulateTimeZoneDropdown()
+        {
+            cmbTimeZone.DataSource = new[] {
+                new { Text = "Samoa (GMT-11)", Value = XboxTimeZone.Samoa },
+                new { Text = "Hawaii (GMT-10)", Value = XboxTimeZone.Hawaii },
+                new { Text = "Alaska (GMT-9)", Value = XboxTimeZone.Alaska },
+                new { Text = "Pacific (GMT-8)", Value = XboxTimeZone.Pacific },
+                new { Text = "Mountain (GMT-7)", Value = XboxTimeZone.Mountain },
+                new { Text = "Arizona (GMT-7)", Value = XboxTimeZone.Arizona },
+                new { Text = "Saskatchewan (GMT-6)", Value = XboxTimeZone.Saskatchewan },
+                new { Text = "Mexico City (GMT-6)", Value = XboxTimeZone.MexicoCity },
+                new { Text = "Central (GMT-6)", Value = XboxTimeZone.Central },
+                new { Text = "Central America (GMT-6)", Value = XboxTimeZone.CentralAmerica },
+                new { Text = "Indiana (GMT-5)", Value = XboxTimeZone.Indiana },
+                new { Text = "Eastern (GMT-5)", Value = XboxTimeZone.Eastern },
+                new { Text = "Bogota (GMT-5)", Value = XboxTimeZone.Bogota },
+                new { Text = "Santiago (GMT-4)", Value = XboxTimeZone.Santiago },
+                new { Text = "Caracas (GMT-4)", Value = XboxTimeZone.Caracas },
+                new { Text = "Atlantic (GMT-4)", Value = XboxTimeZone.Atlantic },
+                new { Text = "Greenland (GMT-3)", Value = XboxTimeZone.Greenland },
+                new { Text = "Buenos Aires (GMT-3)", Value = XboxTimeZone.BuenosAires },
+                new { Text = "Brasilia (GMT-3)", Value = XboxTimeZone.Brasilia },
+                new { Text = "Mid-Atlantic (GMT-2)", Value = XboxTimeZone.MidAtlantic },
+                new { Text = "Cape Verde Islands (GMT-1)", Value = XboxTimeZone.CapeVerdeIslands },
+                new { Text = "Azores (GMT-1)", Value = XboxTimeZone.Azores },
+                new { Text = "Casablanca (GMT+0)", Value = XboxTimeZone.Casablanca },
+                new { Text = "London (GMT+0)", Value = XboxTimeZone.London },
+                new { Text = "Belgrade (GMT+1)", Value = XboxTimeZone.Belgrade },
+                new { Text = "Berlin (GMT+1)", Value = XboxTimeZone.Berlin },
+                new { Text = "Paris (GMT+1)", Value = XboxTimeZone.Paris },
+                new { Text = "Sarajevo (GMT+1)", Value = XboxTimeZone.Sarajevo },
+                new { Text = "West Central Africa (GMT+1)", Value = XboxTimeZone.WestCentralAfrica },
+                new { Text = "Athens (GMT+2)", Value = XboxTimeZone.Athens },
+                new { Text = "Bucharest (GMT+2)", Value = XboxTimeZone.Bucharest },
+                new { Text = "Cairo (GMT+2)", Value = XboxTimeZone.Cairo },
+                new { Text = "Helsinki (GMT+2)", Value = XboxTimeZone.Helsinki },
+                new { Text = "Jerusalem (GMT+2)", Value = XboxTimeZone.Jerusalem },
+                new { Text = "Pretoria (GMT+2)", Value = XboxTimeZone.Pretoria },
+                new { Text = "Baghdad (GMT+3)", Value = XboxTimeZone.Baghdad },
+                new { Text = "Kuwait (GMT+3)", Value = XboxTimeZone.Kuwait },
+                new { Text = "Moscow (GMT+3)", Value = XboxTimeZone.Moscow },
+                new { Text = "Nairobi (GMT+3)", Value = XboxTimeZone.Nairobi },
+                new { Text = "Tehran (GMT+3:30)", Value = XboxTimeZone.Tehran },
+                new { Text = "Abu Dhabi (GMT+4)", Value = XboxTimeZone.AbuDhabi },
+                new { Text = "Baku (GMT+4)", Value = XboxTimeZone.Baku },
+                new { Text = "Kabul (GMT+4:30)", Value = XboxTimeZone.Kabul },
+                new { Text = "Ekaterinburg (GMT+5)", Value = XboxTimeZone.Ekaterinburg },
+                new { Text = "Islamabad (GMT+5)", Value = XboxTimeZone.Islamabad },
+                new { Text = "New Delhi (GMT+5:30)", Value = XboxTimeZone.NewDelhi },
+                new { Text = "Kathmandu (GMT+5:45)", Value = XboxTimeZone.Kathmandu },
+                new { Text = "Almaty (GMT+6)", Value = XboxTimeZone.Almaty },
+                new { Text = "Dhaka (GMT+6)", Value = XboxTimeZone.Dhaka },
+                new { Text = "Srilanka (GMT+6)", Value = XboxTimeZone.Srilanka },
+                new { Text = "Yangon (GMT+6:30)", Value = XboxTimeZone.Yangon },
+                new { Text = "Bangkok (GMT+7)", Value = XboxTimeZone.Bangkok },
+                new { Text = "Krasnoyarsk (GMT+7)", Value = XboxTimeZone.Krasnoyarsk },
+                new { Text = "Beijing (GMT+8)", Value = XboxTimeZone.Beijing },
+                new { Text = "Irkutsk (GMT+8)", Value = XboxTimeZone.Irkutsk },
+                new { Text = "Perth (GMT+8)", Value = XboxTimeZone.Perth },
+                new { Text = "Singapore (GMT+8)", Value = XboxTimeZone.Singapore },
+                new { Text = "Taipei (GMT+8)", Value = XboxTimeZone.Taipei },
+                new { Text = "Seoul (GMT+9)", Value = XboxTimeZone.Seoul },
+                new { Text = "Tokyo (GMT+9)", Value = XboxTimeZone.Tokyo },
+                new { Text = "Yakutsk (GMT+9)", Value = XboxTimeZone.Yakutsk },
+                new { Text = "Adelaide (GMT+9:30)", Value = XboxTimeZone.Adelaide },
+                new { Text = "Darwin (GMT+9:30)", Value = XboxTimeZone.Darwin },
+                new { Text = "Brisbane (GMT+10)", Value = XboxTimeZone.Brisbane },
+                new { Text = "Guam (GMT+10)", Value = XboxTimeZone.Guam },
+                new { Text = "Hobart (GMT+10)", Value = XboxTimeZone.Hobart },
+                new { Text = "Sydney (GMT+10)", Value = XboxTimeZone.Sydney },
+                new { Text = "Vladivostok (GMT+10)", Value = XboxTimeZone.Vladivostok },
+                new { Text = "Solomon Islands (GMT+11)", Value = XboxTimeZone.SolomonIslands },
+                new { Text = "Auckland (GMT+12)", Value = XboxTimeZone.Auckland },
+                new { Text = "Fiji Islands (GMT+12)", Value = XboxTimeZone.FijiIslands },
+                new { Text = "Nuku'alofa (GMT+13)", Value = XboxTimeZone.Nukualofa },
+                new { Text = "Kiribati (GMT+14)", Value = XboxTimeZone.Kiribati },
+                new { Text = "Unknown", Value = XboxTimeZone.Unknown }
             };
         }
 
@@ -1504,18 +1507,6 @@ namespace XboxEepromEditor.Forms
                 new { Text = "LTRIG", Value = PasscodeButton.LeftTrigger },
                 new { Text = "RTRIG", Value = PasscodeButton.RightTrigger },
                 new { Text = "UNK", Value = PasscodeButton.Unknown }
-            };
-        }
-
-        // TODO: if we can't determine tz from xbox settings, select "Unknown" and force user to select a new one before saving
-        // https://www.timeanddate.com/time/zones/
-        // https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-        private void PopulateTimeZoneDropdown()
-        {
-            cmbTimeZone.DataSource = new[] {
-                new { Text = "Unknown" },
-                new { Text = "America/Chicago" },   // TODO: tag with TimeZoneInfo struct
-                // TODO: additional zones
             };
         }
 

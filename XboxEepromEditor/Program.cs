@@ -1,5 +1,5 @@
-﻿using System;
-using System.Threading;
+﻿using Serilog;
+using System;
 using System.Windows.Forms;
 using XboxEepromEditor.Forms;
 
@@ -13,9 +13,10 @@ namespace XboxEepromEditor
         [STAThread]
         static void Main()
         {
+            Log.Logger = new LoggerConfiguration().WriteTo.File("XboxEepromEditor.log").CreateLogger();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.ThreadException += GlobalExceptionHandler;
+            AppDomain.CurrentDomain.UnhandledException += GlobalExceptionHandler;
             Application.Run(new MainForm());
         }
 
@@ -24,10 +25,13 @@ namespace XboxEepromEditor
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        static void GlobalExceptionHandler(object sender, ThreadExceptionEventArgs e)
+        static void GlobalExceptionHandler(object sender, UnhandledExceptionEventArgs e)
         {
-            // TODO: log full messages and truncate messagebox contents to first 10 lines
-            MessageBox.Show(e.Exception.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            Log.Error(e.ExceptionObject as Exception, "Unhandled exception!");
+            Log.CloseAndFlush();
+
+            MessageBox.Show("Please check log for additional information.",
+                "Unhandled Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

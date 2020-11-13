@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Linq;
 using System.Text.RegularExpressions;
 using XboxEepromEditor.Cryptography;
 using XboxEepromEditor.Extensions;
 using XboxEepromEditor.Types;
+using Serilog;
 
 namespace XboxEepromEditor
 {
@@ -18,6 +20,83 @@ namespace XboxEepromEditor
         private Stream Stream { get; set; }
         private BinaryReader Reader { get; set; }
         private BinaryWriter Writer { get; set; }
+
+        private readonly (XboxTimeZone Zone, string Data)[] _timeZoneMappings = new (XboxTimeZone Zone, string Data)[]
+        {
+            (XboxTimeZone.Samoa, "940200004E5400004E5400000000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Hawaii, "5802000048535400485354000000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Alaska, "1C020000595354005944540000000000000000000A05000204010002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Pacific, "E0010000505354005044540000000000000000000A05000204010002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Mountain, "A40100004D5354004D53540000000000000000000A05000204010002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Arizona, "A40100004D5354004D5354000000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Saskatchewan, "6801000043435354434353540000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.MexicoCity, "680100004D5354004D44540000000000000000000A05000204010002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Central, "68010000435354004344540000000000000000000A05000204010002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.CentralAmerica, "6801000043415354434153540000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Indiana, "2C01000045535400455354000000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Eastern, "2C010000455354004544540000000000000000000A05000204010002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Bogota, "2C01000053505354535053540000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Santiago, "F000000050535354505344540000000000000000030206000A020600000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Caracas, "F000000053575354535753540000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Atlantic, "F0000000415354004144540000000000000000000A05000204010002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Greenland, "B4000000475354004744540000000000000000000A05000204010002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.BuenosAires, "B400000053455354534553540000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Brasilia, "B400000045535354455344540000000000000000020200020A030002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.MidAtlantic, "780000004D4153544D41445400000000000000000905000203050002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.CapeVerdeIslands, "3C00000057415400574154000000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Azores, "3C000000415354004144540000000000000000000A05000303050002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Casablanca, "0000000047535400475354000000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.London, "00000000474D54004253540000000000000000000A05000203050001000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Belgrade, "C4FFFFFF434553544345445400000000000000000A05000303050002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Berlin, "C4FFFFFF574553545745445400000000000000000A05000303050002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Paris, "C4FFFFFF525354005244540000000000000000000A05000303050002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Sarajevo, "C4FFFFFF534353545343445400000000000000000A05000303050002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.WestCentralAfrica, "C4FFFFFF57415354574153540000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Athens, "88FFFFFF475453544754445400000000000000000A05000303050002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Bucharest, "88FFFFFF454553544545445400000000000000000905000103050000000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Cairo, "88FFFFFF455354004544540000000000000000000905030205010502000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Helsinki, "88FFFFFF464C5354464C445400000000000000000A05000403050003000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Jerusalem, "88FFFFFF4A5354004A5354000000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Pretoria, "88FFFFFF53415354534153540000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Baghdad, "4CFFFFFF415354004144540000000000000000000A01000404010003000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Kuwait, "4CFFFFFF41535400415354000000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Moscow, "4CFFFFFF525354005244540000000000000000000A05000303050002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Nairobi, "4CFFFFFF45415354454153540000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.AbuDhabi, "10FFFFFF41535400415354000000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Baku, "10FFFFFF435354004344540000000000000000000A05000303050002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Ekaterinburg, "D4FEFFFF455354004544540000000000000000000A05000303050002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Islamabad, "D4FEFFFF57415354574153540000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Almaty, "98FEFFFF4E4353544E43445400000000000000000A05000303050002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Dhaka, "98FEFFFF43415354434153540000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Srilanka, "98FEFFFF53525354535253540000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Bangkok, "5CFEFFFF53415354534153540000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Krasnoyarsk, "5CFEFFFF4E4153544E41445400000000000000000A05000303050002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Beijing, "20FEFFFF43535400435354000000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Irkutsk, "20FEFFFF4E4553544E45445400000000000000000A05000303050002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Perth, "20FEFFFF41575354415753540000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Singapore, "20FEFFFF4D5053544D5053540000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Taipei, "20FEFFFF54535400545354000000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Seoul, "E4FDFFFF4B5354004B5354000000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Tokyo, "E4FDFFFF54535400545354000000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Yakutsk, "E4FDFFFF595354005944540000000000000000000A05000303050002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Brisbane, "A8FDFFFF41455354414553540000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Guam, "A8FDFFFF57505354575053540000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Hobart, "A8FDFFFF54535400544454000000000000000000030500020A010002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Sydney, "A8FDFFFF41455354414544540000000000000000030500020A050002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Vladivostok, "A8FDFFFF565354005644540000000000000000000A05000303050002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.SolomonIslands, "6CFDFFFF43505354435053540000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Auckland, "30FDFFFF4E5A53544E5A44540000000000000000030300020A010002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.FijiIslands, "30FDFFFF46535400465354000000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Nukualofa, "F4FCFFFF54535400545354000000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Kiribati, "B8FCFFFF4B5354004B5354000000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Tehran, "2EFFFFFF495354004944540000000000000000000904020203010002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Kabul, "F2FEFFFF41535400415354000000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.NewDelhi, "B6FEFFFF49535400495354000000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Kathmandu, "A7FEFFFF4E5354004E5354000000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Yangon, "7AFEFFFF4D5354004D5354000000000000000000000000000000000000000000000000000000000000000000"),
+            (XboxTimeZone.Adelaide, "C6FDFFFF41435354414344540000000000000000030500020A050002000000000000000000000000C4FFFFFF"),
+            (XboxTimeZone.Darwin, "C6FDFFFF41435354414353540000000000000000000000000000000000000000000000000000000000000000")
+        };
 
         public EepromVersion Version { get; set; } = EepromVersion.Unknown;
 
@@ -223,6 +302,9 @@ namespace XboxEepromEditor
             }
             set
             {
+                if (value == VideoStandard.Unknown)
+                    return;
+
                 Stream.Position = 0x58;
                 Writer.Write((uint)value);
             }
@@ -263,6 +345,37 @@ namespace XboxEepromEditor
             {
                 Stream.Position = 0x60;
                 Writer.Write(value);
+            }
+        }
+
+        /// <summary>
+        /// The time zone as determined by data offset range 0x64 to 0x90.
+        /// </summary>
+        public XboxTimeZone TimeZone
+        {
+            get
+            {
+                try
+                {
+                    Stream.Position = 0x64;
+                    var data = Reader.ReadBytes(0x2C);
+                    return _timeZoneMappings.First(m => m.Data.FromHexStringToBytes().IsEqual(data)).Zone;
+                }
+                catch
+                {
+                    return XboxTimeZone.Unknown;
+                }
+            }
+            set
+            {
+                if (value == XboxTimeZone.Unknown)
+                    return;
+
+                Stream.Position = 0x64;
+
+                var mapping = _timeZoneMappings.First(m => m.Zone == value);
+                byte[] data = _timeZoneMappings.First(m => m.Zone == value).Data.FromHexStringToBytes();
+                Writer.Write(data);
             }
         }
 
@@ -443,6 +556,9 @@ namespace XboxEepromEditor
             }
             set
             {
+                if (value == Language.Unknown)
+                    return;
+
                 Stream.Position = 0x90;
                 Writer.Write((uint)value);
             }
@@ -494,6 +610,9 @@ namespace XboxEepromEditor
             }
             set
             {
+                if (value == GameRating.Unknown)
+                    return;
+
                 Stream.Position = 0x9C;
                 Writer.Write((uint)value);
             }
@@ -529,6 +648,9 @@ namespace XboxEepromEditor
             }
             set
             {
+                if (value == MovieRating.Unknown)
+                    return;
+
                 Stream.Position = 0xA4;
                 Writer.Write((uint)value);
             }
@@ -610,6 +732,7 @@ namespace XboxEepromEditor
             }
         }
 
+        // TODO: 2 = DST off, otherwise auto
         /// <summary>
         /// Example values: 0x4, 0x8, 0x9, 0xA, 0xC, 0xF
         /// </summary>
@@ -639,6 +762,9 @@ namespace XboxEepromEditor
             }
             set
             {
+                if (value == DvdPlaybackZone.Unknown)
+                    return;
+
                 Stream.Position = 0xBC;
                 Writer.Write((uint)value);
             }
@@ -747,6 +873,9 @@ namespace XboxEepromEditor
 
                     // set the detected version
                     Version = version;
+
+                    // save a backup in the logs
+                    Log.Information("Open EEPROM {0}", data.ToHexString());
                     break;
                 }
 
@@ -766,6 +895,7 @@ namespace XboxEepromEditor
             Region = Region.NorthAmerica;
             VideoStandard = VideoStandard.NtscM;
             Language = Language.English;
+            TimeZone = XboxTimeZone.London;
 
             // randomly generate new keys and hardware info
             Serial = GeneratRandomSerial();
@@ -796,6 +926,7 @@ namespace XboxEepromEditor
             // write eeprom as-is if version is unknown
             if (Version == EepromVersion.Unknown)
             {
+                Log.Information("Save EEPROM {0}", Data.ToHexString());
                 return Data;
             }
             else
@@ -804,21 +935,18 @@ namespace XboxEepromEditor
                 byte[] eepromCopy = new byte[Size];
                 Data.CopyTo(eepromCopy, 0);
 
-                // update security section of copy
-                if (Version != EepromVersion.Unknown)
-                {
-                    HmacSha1 sha = new HmacSha1();
-                    RC4 rc4 = new RC4();
+                HmacSha1 sha = new HmacSha1();
+                RC4 rc4 = new RC4();
 
-                    // hash decrypted confounder/hddkey/region
-                    byte[] hash = sha.Compute(Version, eepromCopy.Subset(0x14, 0x1C));
-                    hash.CopyTo(eepromCopy, 0);
+                // hash decrypted confounder/hddkey/region
+                byte[] hash = sha.Compute(Version, eepromCopy.Subset(0x14, 0x1C));
+                hash.CopyTo(eepromCopy, 0);
 
-                    // re-encrypt data
-                    rc4.Init(sha.Compute(Version, hash));
-                    rc4.Crypt(eepromCopy, 20, 28);
-                }
+                // re-encrypt data
+                rc4.Init(sha.Compute(Version, hash));
+                rc4.Crypt(eepromCopy, 20, 28);
 
+                Log.Information("Save EEPROM {0}", eepromCopy.ToHexString());
                 return eepromCopy;
             }
         }

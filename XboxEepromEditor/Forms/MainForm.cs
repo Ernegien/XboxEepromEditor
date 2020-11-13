@@ -18,7 +18,7 @@ namespace XboxEepromEditor.Forms
     // TODO: textbox.AutoSize = false; then set textbox height to 23 to match combobox height, or set multiline = true
     // https://stackoverflow.com/questions/5853073/change-the-textbox-height/17326753#17326753
 
-    // TODO: logging, menu shortcuts, tab indices, timezones, general cleanup
+    // TODO: menu shortcuts, tab indices, general cleanup
 
     public partial class MainForm : Form
     {
@@ -33,7 +33,10 @@ namespace XboxEepromEditor.Forms
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            Text += " (" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + ") BETA";
+            if (!BitConverter.IsLittleEndian)
+                throw new NotSupportedException("Big endian memory architecture detected.");
+
+            Text += " (" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
 
             PopulateVersionDropdown();
             PopulateRegionCheckboxes();
@@ -61,7 +64,7 @@ namespace XboxEepromEditor.Forms
             txtHddKey.Text = _eeprom.HddKey.ToHexString();
             foreach (ListViewItem item in lvRegions.Items)
             {
-                item.Checked = _eeprom.Region.HasFlag((Types.Region)item.Tag);
+                item.Checked = _eeprom.Region.HasFlag((Region)item.Tag);
             }
 
             txtSerial.Text = _eeprom.Serial;
@@ -74,7 +77,11 @@ namespace XboxEepromEditor.Forms
                 cmbVideoStandard.SelectedValue = VideoStandard.Unknown;
             }
 
-            // TODO: time zone / dst
+            cmbTimeZone.SelectedValue = _eeprom.TimeZone;
+            if (cmbTimeZone.SelectedValue == null)
+            {
+                cmbTimeZone.SelectedValue = XboxTimeZone.Unknown;
+            }
 
             cmbDvdZone.SelectedValue = _eeprom.DvdPlaybackZone;
             if (cmbDvdZone.SelectedValue == null)
@@ -140,8 +147,6 @@ namespace XboxEepromEditor.Forms
 
             txtPadding46.Text = BitConverter.GetBytes(_eeprom.UnknownPadding).ToHexString();
             txtPadding56.Text = BitConverter.GetBytes(_eeprom.UnknownPadding2).ToHexString();
-            txtPadding70.Text = _eeprom.UnknownPadding3.ToHexString();
-            txtPadding80.Text = _eeprom.UnknownPadding4.ToHexString();
             txtUnknownC0.Text = _eeprom.MiscData.ToHexString();
             txtUnknownF4.Text = BitConverter.GetBytes(_eeprom.UnknownValueF4).ToHexString();
 
@@ -172,32 +177,14 @@ namespace XboxEepromEditor.Forms
             _eeprom.Serial = txtSerial.Text;
             _eeprom.MacAddress = txtMacAddress.Text.FromHexStringToBytes();
             _eeprom.OnlineKey = txtOnlineKey.Text.FromHexStringToBytes();
-            var videoStandard = (VideoStandard)cmbVideoStandard.SelectedValue;
-            if (videoStandard != VideoStandard.Unknown)
-            {
-                _eeprom.VideoStandard = videoStandard;
-            }
-
+            _eeprom.VideoStandard  = (VideoStandard)cmbVideoStandard.SelectedValue;
             _eeprom.DvdPlaybackZone = (DvdPlaybackZone)cmbDvdZone.SelectedValue;
-            var language = (Language)cmbLanguage.SelectedValue;
-            if (language != Language.Neutral)
-            {
-                _eeprom.Language = language;
-            }
+            _eeprom.TimeZone = (XboxTimeZone)cmbTimeZone.SelectedValue;
+            _eeprom.Language = (Language)cmbLanguage.SelectedValue;
             _eeprom.VideoSettings = (VideoSettings)GetListViewFlagValue(lvVideo);
             _eeprom.AudioSettings = (AudioSettings)GetListViewFlagValue(lvAudio);
-
-            var gameRating = (GameRating)cmbMaxGameRating.SelectedValue;
-            if (gameRating != GameRating.Unknown)
-            {
-                _eeprom.ParentalControlGameRating = gameRating;
-            }
-
-            var movieRating = (MovieRating)cmbMaxMovieRating.SelectedValue;
-            if (movieRating != MovieRating.Unknown)
-            {
-                _eeprom.ParentalControlMovieRating = movieRating;
-            }
+            _eeprom.ParentalControlGameRating = (GameRating)cmbMaxGameRating.SelectedValue;
+            _eeprom.ParentalControlMovieRating = (MovieRating)cmbMaxMovieRating.SelectedValue;
 
             uint passcode = 0;
             var pass1 = (PasscodeButton)cmbPass1.SelectedValue;
@@ -236,8 +223,6 @@ namespace XboxEepromEditor.Forms
 
             _eeprom.UnknownPadding = BitConverter.ToUInt16(txtPadding46.Text.FromHexStringToBytes(), 0);
             _eeprom.UnknownPadding2 = BitConverter.ToUInt32(txtPadding56.Text.FromHexStringToBytes(), 0);
-            _eeprom.UnknownPadding3 = txtPadding70.Text.FromHexStringToBytes();
-            _eeprom.UnknownPadding4 = txtPadding80.Text.FromHexStringToBytes();
 
             _eeprom.UnknownValueF4 = BitConverter.ToUInt32(txtUnknownF4.Text.FromHexStringToBytes(), 0);
             _eeprom.MiscData = txtUnknownC0.Text.FromHexStringToBytes();
@@ -501,7 +486,6 @@ namespace XboxEepromEditor.Forms
             sb.AppendLine("=================================================");
             sb.AppendLine();
             sb.AppendFormat("Time Zone: {0}\r\n", cmbTimeZone.Text);
-            sb.AppendFormat("Daylight Savings?: {0}\r\n", chkDst.Checked ? "Yes" : "No");
             sb.AppendFormat("DVD Zone: {0}\r\n", cmbDvdZone.Text);
             sb.AppendFormat("Language: {0}\r\n", cmbLanguage.Text);
             sb.AppendFormat("Video Options: {0}\r\n", GetChecklistFlagString(lvVideo));
@@ -530,8 +514,6 @@ namespace XboxEepromEditor.Forms
             sb.AppendLine();
             sb.AppendFormat("Padding 0x46: {0}\r\n", txtPadding46.Text);
             sb.AppendFormat("Padding 0x56: {0}\r\n", txtPadding56.Text);
-            sb.AppendFormat("Padding 0x70: {0}\r\n", txtPadding70.Text);
-            sb.AppendFormat("Padding 0x80: {0}\r\n", txtPadding80.Text);
             sb.AppendFormat("Value 0xF4: {0}\r\n", txtUnknownF4.Text);
             sb.AppendFormat("Data 0xC0: {0}\r\n", txtUnknownC0.Text);
             sb.AppendFormat("Flags 0xB8: {0}\r\n", GetChecklistFlagString(lvUnknownB8));
