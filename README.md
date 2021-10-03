@@ -16,10 +16,12 @@ This application allows for generating and/or editing the contents of an Origina
 
 ##### Linux
 
-* Install [Mono](https://www.mono-project.com/download/stable/#download-lin)
+* Install [Mono](https://www.mono-project.com/download/stable/#download-lin) and [NuGet](https://docs.microsoft.com/nuget/install-nuget-client-tools#macoslinux)
 * Clone: `git clone https://github.com/Ernegien/XboxEepromEditor.git`
-* Enter source directory: `cd XboxEepromEditor/XboxEepromEditor`
-* Compile: `xbuild XboxEepromEditor.csproj`
+* Enter project directory: `cd XboxEepromEditor`
+* Install dependencies: `nuget restore XboxEepromEditor.sln`
+* Enter source directory: `cd XboxEepromEditor`
+* Compile: `msbuild XboxEepromEditor.csproj`
 * Mark executable: `chmod +x bin/Debug/XboxEepromEditor.exe`
 * Run: `./bin/Debug/XboxEepromEditor.exe`
 
