@@ -277,6 +277,7 @@ namespace XboxEepromEditor.Forms
             string port = ((ToolStripMenuItem)sender).Text;
 
             ArduinoPromTest(port);
+            UpdateEepromFromForm();
 
             if (_eeprom.Version == EepromVersion.Unknown && MessageBox.Show("You're about to write an EEPROM of unknown version. The security section will be written as-is and likely won't work with your Xbox!", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)
             {
